@@ -7,21 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a href="{{ route('news.index') }}" class="navbar-brand fw-bold">Home</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
-                    <!-- Link to Add News -->
-                    <li class="nav-item">
-                        <a href="{{ route('news.create') }}" class="nav-link fw-bold">+ Add News</a>
-                    </li>
-
-                    <!-- Link to History (News List) -->
-                    <li class="nav-item">
-                        <a href="{{ route('news.index') }}" class="nav-link fw-bold">History News</a>
-                    </li>
-
+                    
                     <!-- Logout Button -->
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" style="display:inline;">

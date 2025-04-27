@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    public function NewsList()
+    {
+        $news = News::where('status', 'approved')->latest()->get();
+        return view('news.news_list', compact('news'));
+    }
+    
     public function index()
     {
         $news = News::where('status', 'approved')->latest()->get();
