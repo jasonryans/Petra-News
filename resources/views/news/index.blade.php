@@ -1,11 +1,14 @@
-<h1>All News</h1>
+@extends('base.base')
 
-<a href="{{ route('news.create') }}">Buat News Baru</a>
+@section('title', 'All News')
 
-@foreach ($news as $item)
-    <div>
-        <h2>{{ $item->title }}</h2>
-        <p>{{ Str::limit($item->description, 100) }}</p>
-        <p><strong>Event Date:</strong> {{ $item->event_date }}</p>
-    </div>
-@endforeach
+@section('content')
+
+    @foreach ($news as $item)
+        <div class="bg-white p-4 rounded shadow mt-4">
+            <h2 class="text-xl font-bold">{{ $item->title }}</h2>
+            <p>{{ Str::limit($item->description, 100) }}</p>
+            <p><strong>Event Date:</strong> {{ $item->event_date }}</p>
+        </div>
+    @endforeach
+@endsection

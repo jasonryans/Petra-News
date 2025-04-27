@@ -24,7 +24,7 @@ class NewsController extends Controller
             'title' => 'required',
             'description' => 'required',
             'event_date' => 'required|date',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'youtube_link' => 'nullable|url',
             'category' => 'required',
             'audience' => 'required',
