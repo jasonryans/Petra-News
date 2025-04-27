@@ -36,7 +36,7 @@ class AuthController extends Controller
         $admin = User::where('role', 'admin')->where('email', $credentials['email'])->first();
 
         // Cek apakah user adalah admin
-        if ($user->role === 'admin') {
+        if ($admin->role === 'admin') {
             // Kalau user adalah admin
             return redirect()->route('admin.news.index');
         }
