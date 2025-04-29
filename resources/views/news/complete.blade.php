@@ -1,0 +1,1 @@
+{{-- Buat isi  menampilkan berita lengkap yang isinya foto, artikel, tanggal publish, nama author dll (lanjutan dari page menampilkan berita singkat) --}}

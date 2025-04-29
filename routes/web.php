@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create'); // ← Form create
     Route::post('/news', [NewsController::class, 'store'])->name('news.store'); // ← Menyimpan News
+    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
 
     // Admin area
     Route::get('/admin/news', [AdminNewsController::class, 'index'])->name('admin.news.index');

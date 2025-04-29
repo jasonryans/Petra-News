@@ -33,10 +33,8 @@ class AuthController extends Controller
         // Kalau sukses login
         Auth::login($user);
 
-        $admin = User::where('role', 'admin')->where('email', $credentials['email'])->first();
-
         // Cek apakah user adalah admin
-        if ($admin->role === 'admin') {
+        if ($user->role === 'admin') {
             // Kalau user adalah admin
             return redirect()->route('admin.news.index');
         }
@@ -52,27 +50,25 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-{
-    // Validasi input
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:6|confirmed'
-    ]);
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed'
+        ]);
 
-    // Simpan ke database
-    User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => bcrypt($validated['password']),
-        'role' => 'user'
-    ]);
+        // Simpan ke database
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'role' => 'user'
+        ]);
 
-    // Setelah register, redirect ke login
-    return redirect()->route('login')->with('success', 'Berhasil daftar! Silakan login.');
-}
-
-    
+        // Setelah register, redirect ke login
+        return redirect()->route('login')->with('success', 'Berhasil daftar! Silakan login.');
+    }
 
     public function logout(Request $request)
     {

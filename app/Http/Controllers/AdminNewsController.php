@@ -33,4 +33,10 @@ class AdminNewsController extends Controller
 
         return back()->with('error', 'News rejected.');
     }
+
+    public function destroy($id)
+    {
+        News::where('id', $id)->delete();
+        return redirect()->route('admin.news.index');
+    }
 }

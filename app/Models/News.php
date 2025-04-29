@@ -15,7 +15,7 @@ class News extends Model
         'title',
         'description',
         'event_date',
-        'image_path',
+        'image',
         'youtube_link',
         'category',
         'audience',

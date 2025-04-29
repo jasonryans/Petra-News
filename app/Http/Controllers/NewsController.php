@@ -19,6 +19,15 @@ class NewsController extends Controller
         return view('news.index', compact('news'));
     }
 
+    public function show($id)
+    {
+        $news = News::where('id', $id)->firstOrFail();
+        if ($news->status !== 'approved') {
+            return redirect()->route('news.index')->with('error', 'News not found or not approved.');
+        }
+        return view('news.show', compact('news'));
+    }
+
     public function create()
     {
         return view('news.create');
@@ -30,7 +39,7 @@ class NewsController extends Controller
             'title' => 'required',
             'description' => 'required',
             'event_date' => 'required|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'youtube_link' => 'nullable|url',
             'category' => 'required',
             'audience' => 'required',
@@ -41,7 +50,7 @@ class NewsController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('news_images', 'public');
-            $news->image_path = $path;
+            $news->image = $path;
         }
 
         $news->save();

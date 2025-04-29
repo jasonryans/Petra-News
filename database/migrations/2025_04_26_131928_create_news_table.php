@@ -10,7 +10,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description');
             $table->date('event_date');
-            $table->string('image_path')->nullable();
+            $table->string('image')->nullable();
             $table->string('youtube_link')->nullable();
             $table->string('category');
             $table->string('audience');
