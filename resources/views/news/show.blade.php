@@ -5,7 +5,7 @@
     <h2 class="text-xl font-bold">{{ $news->title }}</h2>
     <p><strong>Event date:</strong> {{ $news->start_date }}</p>
     <a href="{{ route('news.complete', $news->id) }}">
-        <button type="button" class="btn btn-link">{{ $news->description }}</button>
+        <button type="button" class="btn btn-link">{{ Str::limit($news->description, 100, '...') }}</button>
     </a>
 
 </div>

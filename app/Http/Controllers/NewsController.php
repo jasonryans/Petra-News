@@ -40,7 +40,7 @@ class NewsController extends Controller
     {
         return view('news.create');
     }
-
+    
     public function store(Request $request)
     {
         $validated = $request->validate([

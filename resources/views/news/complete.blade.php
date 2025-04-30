@@ -12,8 +12,10 @@ tanggal publish, nama author dll (lanjutan dari page menampilkan berita singka
             </div>
             <div class="col-md-8">
                 <h3>{{ $news->title }}</h3>
-                <p>{{ $news->description }}</p>
-            </div>
+            @foreach (explode("\n", $news->description) as $paragraph)
+                <p>{{ $paragraph }}</p>
+            @endforeach            
+        </div>
         </div>
     </div>
 </div>

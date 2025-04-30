@@ -19,7 +19,7 @@
 
                     <!-- Link to History (News List) -->
                     <li class="nav-item">
-                        <a href="{{ route('news.index') }}" class="nav-link fw-bold">History News</a>
+                        <a href="{{ route('news.history') }}" class="nav-link fw-bold">History News</a>
                     </li>
 
                     <!-- Logout Button -->
