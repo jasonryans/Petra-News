@@ -9,7 +9,8 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->date('event_date');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('image')->nullable();
             $table->string('youtube_link')->nullable();
             $table->string('category');

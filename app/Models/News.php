@@ -14,7 +14,8 @@ class News extends Model
     protected $fillable = [
         'title',
         'description',
-        'event_date',
+        'start_date',
+        'end_date',
         'image',
         'youtube_link',
         'category',

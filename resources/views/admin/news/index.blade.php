@@ -13,7 +13,8 @@
                 <th>ID</th>
                 <th>Title</th>
                 <th>Created</th>
-                <th>Event Date</th>
+                <th>Start Date</th>
+                <th>End Date</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -24,7 +25,8 @@
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->title }}</td>
                     <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                    <td>{{ $item->event_date }}</td>
+                    <td>{{ $item->start_date }}</td>
+                    <td>{{ $item->end_date }}</td>
                     <td>
                         <span class="badge bg-{{ $item->status == 'pending' ? 'warning' : ($item->status == 'approved' ? 'success' : 'danger') }}">
                             {{ ucfirst($item->status) }}
