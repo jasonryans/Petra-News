@@ -102,6 +102,24 @@
             cursor: pointer;
             padding: 0 10px;
         }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        main {
+            flex: 1; /* Ensures the main content takes up available space */
+        }
+
+        footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            background-color: #212529; /* Matches the footer's background color */
+        }
         
         /* Responsive adjustments */
         @media (max-width: 767.98px) {
@@ -244,36 +262,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            
-            <!-- Main Content -->
             @yield('content')
-            
-            <!-- Example News Card Layout for All News page -->
-            @if(Request::is('news'))
-            <div class="row">
-                <!-- Example News Item -->
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card news-card h-100">
-                        <div class="card-img-top bg-dark text-center py-4">
-                            <i class="fas fa-newspaper text-warning" style="font-size: 3rem;"></i>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Hitam</h5>
-                            <p class="news-date mb-2">
-                                <i class="far fa-calendar-alt me-1"></i> September 9, 2025
-                            </p>
-                            <p class="card-text">Short preview of the news content would go here...</p>
-                            <a href="#" class="btn btn-sm btn-dark btn-detail">
-                                <i class="fas fa-arrow-right me-1"></i> Read More
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- More news items would be dynamically generated here -->
-                
-            </div>
-            @endif
         </div>
     </main>
 
@@ -283,24 +272,24 @@
             <div class="row">
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5 class="fw-bold mb-3">Campus News</h5>
-                    <p class="text-muted">Your source for the latest campus events, announcements, and stories from around the university.</p>
+                    <p class="text-white">Your source for the latest campus events, announcements, and stories from around the university.</p>
                 </div>
                 <div class="col-md-3 mb-4 mb-md-0">
                     <h5 class="fw-bold mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Home</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Latest News</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Events Calendar</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Home</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Latest News</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Events Calendar</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">About Us</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mb-4 mb-md-0">
                     <h5 class="fw-bold mb-3">Categories</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Academic</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Sports</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Events</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Student Life</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Academic</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Sports</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Events</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Student Life</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2">
@@ -316,10 +305,10 @@
             <hr class="my-4 bg-secondary">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start">
-                    <p class="small text-muted mb-0">&copy; 2025 Campus News Portal. All rights reserved.</p>
+                    <p class="small text-white mb-0">&copy; 2025 Campus News Portal. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <p class="small text-muted mb-0">Designed with <i class="fas fa-heart text-danger"></i> for our University</p>
+                    <p class="small text-white mb-0">Designed with <i class="fas fa-heart text-danger"></i> for our University</p>
                 </div>
             </div>
         </div>

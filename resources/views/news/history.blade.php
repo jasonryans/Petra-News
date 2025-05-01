@@ -16,8 +16,8 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($news as $item)
-                <tr>
+            @foreach ($news as $item)
+                <tr> 
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->title }}</td>
                     <td>{{ $item->created_at->format('d-m-Y H:i') }}</td>
@@ -34,7 +34,7 @@
                 <tr>
                     <td colspan="5" class="text-center">No news submissions found.</td>
                 </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>

@@ -1,18 +1,29 @@
- @extends('base.base')
+@extends('base.base')
 
 @section('title', 'All News')
 
 @section('content')
-
-    @foreach ($news as $item)
-        <div class="bg-white p-4 rounded shadow mt-4">
-            <h2 class="text-xl font-bold">{{ $item->category }}</h2>
-            {{-- <p>{{ Str::limit($item->description, 100) }}</p> --}}
-            <p><strong>Title:</strong> {{ $item->title }}</p>
-            <p><strong>Event Date:</strong> {{ $item->start_date }}</p>
-            <a href="{{ route('news.show', $item->id) }}">
-                <button class="btn btn-info text-white px-4 py-2 rounded mt-4 inline-block">Detail</button>
-            </a>
-        </div>
-    @endforeach
+<div class="container mt-4">
+    <div class="row">
+        @foreach ($news as $item)
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card news-card h-100">
+                    <div class="card-img-top bg-dark text-center py-4">
+                        <i class="fas fa-newspaper text-warning" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ $item->title }}</h5>
+                        <p class="news-date mb-2">
+                            <i class="far fa-calendar-alt me-1"></i> {{ $item->start_date }}
+                        </p>
+                        <p class="card-text">{{ Str::limit($item->description, 100, '...') }}</p>
+                        <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
+                            <i class="fas fa-arrow-right me-1"></i> Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
 @endsection

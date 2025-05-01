@@ -40,7 +40,14 @@ class NewsController extends Controller
     {
         return view('news.create');
     }
+
     
+    public function history()
+    {
+        $news = News::orderBy('created_at', 'desc')->get();
+        return view('admin.news.index', compact('news'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
