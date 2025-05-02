@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mt-4">
     <div class="row">
-        @foreach ($news as $item)
+        @forelse ($news as $item)
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card news-card h-100">
                     <div class="card-img-top bg-dark text-center py-4">
@@ -23,7 +23,11 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-12">
+                <p class="text-center">No news found for your search.</p>
+            </div>
+        @endforelse
     </div>
 </div>
 @endsection

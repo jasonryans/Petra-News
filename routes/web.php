@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
     Route::get('/news/{id}/complete', [NewsController::class, 'complete'])->name('news.complete');
     Route::get('/news/history', [NewsController::class, 'history'])->name('news.history');
-
+    
     // Admin area
     Route::get('/admin/news', [AdminNewsController::class, 'index'])->name('admin.news.index');
     Route::post('/admin/news/{news}/approve', [AdminNewsController::class, 'approve'])->name('admin.news.approve');

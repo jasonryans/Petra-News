@@ -46,8 +46,11 @@
                     <span class="input-group-text bg-light border-end-0">
                         <i class="fas fa-lock text-muted"></i>
                     </span>
-                    <input type="password" name="password" class="form-control border-start-0" 
-                        placeholder="Enter your password" required>
+                    <input type="password" name="password" id="password" class="form-control border-start-0" 
+                           placeholder="Enter your password" required>
+                    <button type="button" id="togglePassword" class="btn btn-light border-start-0">
+                        <i class="fas fa-eye"></i>
+                    </button>
                 </div>
             </div>
             
@@ -67,21 +70,21 @@
 </div>
 
 <script>
-    // Simple function to toggle password visibility
-    function togglePasswordVisibility() {
+    // Function to toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function () {
         const password = document.getElementById('password');
-        const toggleBtn = document.getElementById('togglePassword');
-        const icon = toggleBtn.querySelector('i');
+        const icon = this.querySelector('i');
         
+        // Toggle password visibility
         if (password.type === 'password') {
-            password.type = 'text';
-            icon.classList.remove('fa-eye');
+            password.type = 'text'; // Show password
+            icon.classList.remove('fa-eye'); // Change icon to eye-slash
             icon.classList.add('fa-eye-slash');
         } else {
-            password.type = 'password';
-            icon.classList.remove('fa-eye-slash');
+            password.type = 'password'; // Hide password
+            icon.classList.remove('fa-eye-slash'); // Change icon to eye
             icon.classList.add('fa-eye');
         }
-    }
+    });
 </script>
 @endsection

@@ -14,12 +14,21 @@ class NewsController extends Controller
         return view('news.news_list', compact('news'));
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::where('status', 'approved')->latest()->get();
+        $query = News::where('status', 'approved'); // Only fetch approved news
+
+        // Check if a search term is provided
+        if ($request->has('search') && $request->search) {
+            $query->where('title', 'like', '%' . $request->search . '%'); // Filter by title
+        }
+
+        // Fetch the news, optionally filtered by the search term
+        $news = $query->latest()->get();
+
         return view('news.index', compact('news'));
     }
-
+    
     public function show($id)
     {
         $news = News::where('id', $id)->firstOrFail();

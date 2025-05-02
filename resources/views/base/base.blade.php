@@ -154,9 +154,9 @@
             <!-- Navbar content -->
             <div class="collapse navbar-collapse" id="navbarContent">
                 <!-- Search form -->
-                <form class="d-flex ms-auto me-auto my-2 my-lg-0" style="max-width: 400px;">
+                <form class="d-flex ms-auto me-auto my-2 my-lg-0" style="max-width: 400px;" method="GET" action="{{ route('news.index') }}">
                     <div class="input-group">
-                        <input class="form-control" type="search" placeholder="Search news..." aria-label="Search">
+                        <input class="form-control" type="search" name="search" placeholder="Search news..." aria-label="Search" value="{{ request('search') }}">
                         <button class="btn btn-outline-warning" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
