@@ -26,12 +26,26 @@ class AdminNewsController extends Controller
         return back()->with('success', 'News approved and sent!');
     }
 
-    public function reject(News $news)
+    public function reject(Request $request, News $news)
     {
         $news->status = 'rejected';
+        $news->rejection_memo = $request->input('memo', 'Ditolak tanpa alasan.');
         $news->save();
 
-        return back()->with('error', 'News rejected.');
+        return back()->with('error', 'News rejected with memo.');
+    }
+
+    public function takedown(News $news)
+    {
+        $news->delete(); // Atau bisa ganti status menjadi "taken_down" jika tidak ingin hapus permanen
+        return back()->with('info', 'News has been taken down.');
+    }
+
+    public function clearMemo(News $news)
+    {
+        $news->rejection_memo = null;
+        $news->save();
+        return back()->with('success', 'Memo cleared.');
     }
 
     public function destroy($id)

@@ -27,8 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/news/{id}/complete', [NewsController::class, 'complete'])->name('news.complete');
     Route::get('/news/history', [NewsController::class, 'history'])->name('news.history');
     
-    // Admin area
-    Route::get('/admin/news', [AdminNewsController::class, 'index'])->name('admin.news.index');
-    Route::post('/admin/news/{news}/approve', [AdminNewsController::class, 'approve'])->name('admin.news.approve');
-    Route::post('/admin/news/{news}/reject', [AdminNewsController::class, 'reject'])->name('admin.news.reject');
-});
+     // Admin area
+     Route::get('/admin/news', [AdminNewsController::class, 'index'])->name('admin.news.index');
+     Route::post('/admin/news/{news}/approve', [AdminNewsController::class, 'approve'])->name('admin.news.approve');
+     Route::post('/admin/news/{news}/reject', [AdminNewsController::class, 'reject'])->name('admin.news.reject');
+     Route::post('/admin/news/{news}/takedown', [AdminNewsController::class, 'takedown'])->name('admin.news.takedown');
+     Route::post('/admin/news/{news}/clear-memo', [AdminNewsController::class, 'clearMemo'])->name('admin.news.clear_memo');
+ });

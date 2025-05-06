@@ -33,23 +33,57 @@
                         </span>
                     </td>
                     <td>
-                        @if ($item->status == 'pending')
-                            <form action="{{ route('admin.news.approve', $item) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-success btn-sm">Approve</button>
-                            </form>
-                            <form action="{{ route('admin.news.reject', $item) }}" method="POST" class="d-inline ms-2">
-                                @csrf
-                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
-                            </form>
-                        @else
-                            <span class="text-muted">No action</span>
-                        @endif
-                    </td>
+    @if ($item->status == 'pending')
+        <!-- APPROVE -->
+        <form action="{{ route('admin.news.approve', $item) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+        </form>
+
+        <!-- BUTTON REJECT -->
+        <!-- <div id="reject-form-{{ $item->id }}" class="d-inline">
+            <button type="button" class="btn btn-danger btn-sm ms-2"
+                    onclick="showRejectInput({{ $item->id }})">
+                Reject
+            </button>
+        </div> -->
+
+        <!-- INPUTAN MEMO + SELESAI -->
+        <form action="{{ route('admin.news.reject', $item) }}" method="POST" class="d-inline ms-2" id="reject-input-{{ $item->id }}" style="display: none;">
+            @csrf
+            <input type="text" name="memo" class="form-control form-control-sm d-inline w-auto me-2" placeholder="Alasan penolakan" required>
+            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+        </form>
+
+    @elseif ($item->status == 'approved')
+        <form action="{{ route('admin.news.takedown', $item) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-warning btn-sm">Takedown</button>
+        </form>
+
+    @elseif ($item->status == 'rejected')
+        <div>
+            <strong>Alasan:</strong>
+            <p>{{ $item->rejection_memo ?? '-' }}</p>
+        </div>
+    @endif
+</td>
+
+
+
+
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+
+<!-- <script>
+    function showRejectInput(id) {
+        document.getElementById('reject-form-' + id).style.display = 'none';
+        document.getElementById('reject-input-' + id).style.display = 'inline';
+    }
+</script> -->
+
 
 @endsection
