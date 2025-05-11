@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="mb-4">Your News Submission History</h2>
+<h2 class="mb-4">Your News Submission History</h2>
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
@@ -12,6 +12,7 @@
                 <th>Title</th>
                 <th>Submitted At</th>
                 <th>Status</th>
+                <th>Status Updated At</th>
                 <th>Reason</th>
                 <th>Action</th>
             </tr>
@@ -26,6 +27,13 @@
                         <span class="badge bg-{{ $item->status == 'pending' ? 'warning' : ($item->status == 'approved' ? 'success' : 'danger') }}">
                             {{ ucfirst($item->status) }}
                         </span>
+                    </td>
+                    <td>
+                        @if($item->status != 'pending' && $item->updated_at && $item->updated_at != $item->created_at)
+                            {{ $item->updated_at->format('d-m-Y H:i') }}
+                        @else
+                            -
+                        @endif
                     </td>
                     <td>
                         @if($item->status == 'rejected')

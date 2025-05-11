@@ -9,7 +9,7 @@
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a href="{{ route('news.index') }}" class="navbar-brand fw-bold">Home</a>
+            <a href="{{ route('admin.news.index') }}" class="navbar-brand fw-bold">Home</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     

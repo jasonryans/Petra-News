@@ -9,13 +9,14 @@
     <!-- Approval table -->
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
-            <tr>
+             <tr>
                 <th>ID</th>
                 <th>Title</th>
                 <th>Created</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Status</th>
+                <th>Status Updated At</th>
                 <th>Review</th>
             </tr>
         </thead>
@@ -31,6 +32,13 @@
                         <span class="badge bg-{{ $item->status == 'pending' ? 'warning' : ($item->status == 'approved' ? 'success' : 'danger') }}">
                             {{ ucfirst($item->status) }}
                         </span>
+                    </td>
+                    <td>
+                        @if($item->status != 'pending' && $item->updated_at)
+                            {{ $item->updated_at->format('d-m-Y H:i') }}
+                        @else
+                            -
+                        @endif
                     </td>
                     <td>
                         @if ($item->status == 'pending')

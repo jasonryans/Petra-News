@@ -4,26 +4,23 @@
 
 @section('content')
 <div class="container mt-4">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h4>Review News Article</h4>
-        </div>
-        <div class="card-body">
-            <h2 class="text-xl font-bold">{{ $news->title }}</h2>
-            <div class="mb-3">
-                <strong>Event date:</strong> {{ $news->start_date }} to {{ $news->end_date }}
-            </div>
-            <div class="mb-3">
-                <strong>Created at:</strong> {{ $news->created_at->format('d-m-Y H:i') }}
-            </div>
-            <div class="mb-4">
-                <strong>Description:</strong>
-                <div class="mt-2 p-3 border rounded">
-                    {{ $news->description }}
+    <div class="row my-3">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}" class="img-fluid">
+                        </div>
+                        <div class="col-md-8">
+                            <h3>{{ $news->title }}</h3>
+                        @foreach (explode("\n", $news->description) as $paragraph)
+                            <p>{{ $paragraph }}</p>
+                        @endforeach            
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="d-flex mt-4">
+                     
+            <div class="d-flex justify-content-center mt-4">
                 <!-- Approve Button -->
                 <form action="{{ route('admin.news.approve', $news) }}" method="POST" class="me-2">
                     @csrf
@@ -35,7 +32,6 @@
                     Reject
                 </button>
             </div>
-        </div>
     </div>
 </div>
 

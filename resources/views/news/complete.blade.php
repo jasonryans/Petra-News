@@ -15,7 +15,7 @@ tanggal publish, nama author dll (lanjutan dari page menampilkan berita singka
             @foreach (explode("\n", $news->description) as $paragraph)
                 <p>{{ $paragraph }}</p>
             @endforeach            
-        </div>
+            </div>
         </div>
     </div>
 </div>

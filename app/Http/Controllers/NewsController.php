@@ -40,7 +40,7 @@ class NewsController extends Controller
     public function viewSubmission($id)
     {
         $news = News::where('id', $id)->firstOrFail(); 
-        return view('news.show', compact('news')); 
+        return view('news.complete', compact('news')); 
     }
 
     public function complete($id)
@@ -58,7 +58,7 @@ class NewsController extends Controller
     
     public function history()
     {
-        $news = News::orderBy(+'created_at', 'desc')->get();
+        $news = News::orderBy('created_at', 'desc')->get();
         return view('news.history', compact('news'));
     }
 
