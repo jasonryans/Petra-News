@@ -25,7 +25,6 @@ class NewsController extends Controller
 
         // Fetch the news, optionally filtered by the search term
         $news = $query->latest()->get();
-
         return view('news.index', compact('news'));
     }
     
@@ -36,6 +35,12 @@ class NewsController extends Controller
             return redirect()->route('news.index')->with('error', 'News not found or not approved.');
         }
         return view('news.show', compact('news'));
+    }
+
+    public function viewSubmission($id)
+    {
+        $news = News::where('id', $id)->firstOrFail(); 
+        return view('news.show', compact('news')); 
     }
 
     public function complete($id)
@@ -54,7 +59,7 @@ class NewsController extends Controller
     public function history()
     {
         $news = News::orderBy('created_at', 'desc')->get();
-        return view('admin.news.index', compact('news'));
+        return view('news.history', compact('news'));
     }
 
     public function store(Request $request)

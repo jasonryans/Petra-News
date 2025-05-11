@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminNewsController;
-use App\Http\Controllers\AuthController;
 
 // Jika belum login, akan dialihkan ke halaman login
 Route::get('/', function () {
@@ -21,12 +21,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     // Route untuk News
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-    Route::get('/news/create', [NewsController::class, 'create'])->name('news.create'); // ← Form create
-    Route::post('/news', [NewsController::class, 'store'])->name('news.store'); // ← Menyimpan News
-    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
-    Route::get('/news/{id}/complete', [NewsController::class, 'complete'])->name('news.complete');
+    Route::post('/news', [NewsController::class, 'store'])->name('news.store'); 
+    Route::get('/news/create', [NewsController::class, 'create'])->name('news.create'); 
     Route::get('/news/history', [NewsController::class, 'history'])->name('news.history');
-    
+    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+    Route::get('/news/view-submission/{id}', [NewsController::class, 'viewSubmission'])->name('news.viewSubmission');
+    Route::get('/news/{id}/complete', [NewsController::class, 'complete'])->name('news.complete');
+        
      // Admin area
      Route::get('/admin/news', [AdminNewsController::class, 'index'])->name('admin.news.index');
      Route::post('/admin/news/{news}/approve', [AdminNewsController::class, 'approve'])->name('admin.news.approve');

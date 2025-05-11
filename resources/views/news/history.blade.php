@@ -27,12 +27,8 @@
                         </span>
                     </td>
                     <td>
-                        <a href="{{ route('news.show', $item->id) }}" class="btn btn-info btn-sm text-white">View</a>
+                        <a href="{{ route('news.viewSubmission', $item->id) }}" class="btn btn-info btn-sm text-white">View</a>
                     </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5" class="text-center">No news submissions found.</td>
                 </tr>
             @endforeach
         </tbody>
