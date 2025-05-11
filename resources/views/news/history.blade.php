@@ -12,6 +12,7 @@
                 <th>Title</th>
                 <th>Submitted At</th>
                 <th>Status</th>
+                <th>Reason</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -25,6 +26,13 @@
                         <span class="badge bg-{{ $item->status == 'pending' ? 'warning' : ($item->status == 'approved' ? 'success' : 'danger') }}">
                             {{ ucfirst($item->status) }}
                         </span>
+                    </td>
+                    <td>
+                        @if($item->status == 'rejected')
+                            {{ $item->rejection_memo ?? '-' }}
+                        @else
+                            -
+                        @endif
                     </td>
                     <td>
                         <a href="{{ route('news.viewSubmission', $item->id) }}" class="btn btn-info btn-sm text-white">View</a>

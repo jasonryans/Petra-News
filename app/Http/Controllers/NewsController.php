@@ -58,7 +58,7 @@ class NewsController extends Controller
     
     public function history()
     {
-        $news = News::orderBy('created_at', 'desc')->get();
+        $news = News::orderBy(+'created_at', 'desc')->get();
         return view('news.history', compact('news'));
     }
 
