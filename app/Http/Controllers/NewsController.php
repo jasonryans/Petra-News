@@ -7,47 +7,47 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        // Pastikan semua method di controller ini butuh login
+        $this->middleware('auth');
+    }
+
     public function NewsList()
     {
         $news = News::where('status', 'approved')->latest()->get();
-        dd($news);
         return view('news.news_list', compact('news'));
     }
-    
+
     public function index(Request $request)
     {
-        $query = News::where('status', 'approved'); // Only fetch approved news
+        $query = News::where('status', 'approved');
 
-        // Check if a search term is provided
         if ($request->has('search') && $request->search) {
-            $query->where('title', 'like', '%' . $request->search . '%'); // Filter by title
+            $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        // Fetch the news, optionally filtered by the search term
         $news = $query->latest()->get();
         return view('news.index', compact('news'));
     }
-    
-    public function show($id)
+
+    public function show(News $news)
     {
-        $news = News::where('id', $id)->firstOrFail();
         if ($news->status !== 'approved') {
             return redirect()->route('news.index')->with('error', 'News not found or not approved.');
         }
+
         return view('news.show', compact('news'));
     }
 
-    public function viewSubmission($id)
+    public function viewSubmission(News $news)
     {
-        $news = News::where('id', $id)->firstOrFail(); 
-        return view('news.complete', compact('news')); 
+        return view('news.complete', compact('news'));
     }
 
-    public function complete($id)
+    public function complete(News $news)
     {
-        $news = News::where('id', $id)->firstOrFail(); 
-        // dd($news);
-        return view('news.complete', compact('news')); 
+        return view('news.complete', compact('news'));
     }
 
     public function create()
@@ -55,10 +55,12 @@ class NewsController extends Controller
         return view('news.create');
     }
 
-    
     public function history()
     {
-        $news = News::orderBy('created_at', 'desc')->get();
+        $news = News::where('user_id', auth()->id())
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
         return view('news.history', compact('news'));
     }
 
@@ -77,6 +79,7 @@ class NewsController extends Controller
 
         $news = new News();
         $news->fill($validated);
+        $news->user_id = auth()->id();
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('news_images', 'public');
@@ -88,4 +91,3 @@ class NewsController extends Controller
         return redirect()->route('news.index')->with('success', 'News submitted for approval!');
     }
 }
-

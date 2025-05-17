@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     protected $table = 'users_login';
 
@@ -19,4 +19,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function news()
+    {
+        return $this->hasMany(News::class, 'user_id');
+    }
 }
