@@ -27,7 +27,11 @@ class NewsController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $news = $query->latest()->get();
+        if ($request->has('category') && $request->category) {
+            $query->where('category', $request->category);
+        }
+
+        $news = $query->latest()->paginate(10);
         return view('news.index', compact('news'));
     }
 
@@ -53,6 +57,47 @@ class NewsController extends Controller
     public function create()
     {
         return view('news.create');
+    }
+
+    public function edit($id)
+    {        
+        $news = News::where('id', $id)->firstOrFail();
+        return view('news.edit', compact('news'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'youtube_link' => 'nullable|url',
+            'category' => 'required',
+            'audience' => 'required',
+        ]);
+
+        $news = News::findOrFail($id);
+        $news->title = $validated['title'];
+        $news->description = $validated['description'];
+        $news->image = $validated['image'];
+        $news->start_date = $validated['start_date'];
+        $news->end_date = $validated['end_date'];
+        $news->youtube_link = $validated['youtube_link'];
+        $news->category = $validated['category'];
+        $news->audience = $validated['audience'];
+        $news->status = 'pending'; 
+        $news->user_id = auth()->id();
+        $news->updated_at = now();
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('news_images', 'public');
+            $news->image = $path;
+        }
+        $news->save();
+
+        return redirect()->route('news.index')->with('success', 'News updated successfully!');
     }
 
     public function history()

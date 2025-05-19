@@ -121,7 +121,6 @@
             background-color: #212529; /* Matches the footer's background color */
         }
         
-        /* Responsive adjustments */
         @media (max-width: 767.98px) {
             .navbar-collapse {
                 background-color: var(--secondary-dark);
@@ -137,26 +136,118 @@
     </style>
 </head>
 <body>
-    <!-- Navbar with improved design -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <!-- Brand/logo with icon -->
             <a href="{{ route('news.index') }}" class="navbar-brand">
                 <i class="fas fa-newspaper me-2"></i>Campus News
             </a>
             
-            <!-- Responsive toggle button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
                 aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <!-- Navbar content -->
             <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Search form -->
                 <form class="d-flex ms-auto me-auto my-2 my-lg-0" style="max-width: 400px;" method="GET" action="{{ route('news.index') }}">
                     <div class="input-group">
                         <input class="form-control" type="search" name="search" placeholder="Search news..." aria-label="Search" value="{{ request('search') }}">
+                        <select class="form-select" name="category" aria-label="Filter by category" onchange="toggleOtherInput('category')">
+                            <option value="" selected>Select Category</option>
+                            <option class="level-1" value="314">&nbsp;&nbsp;&nbsp;&nbsp;Koperasi Mahasiswa&nbsp;&nbsp;</option>
+                            <option class="level-1" value="232">&nbsp;&nbsp;&nbsp;&nbsp;Pelayanan Mahasiswa&nbsp;&nbsp;</option>
+                            <option class="level-2" value="231">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pelayanan Gereja&nbsp;&nbsp;</option>
+                            <option class="level-1" value="612">&nbsp;&nbsp;&nbsp;&nbsp;Tim Petra Sinergy&nbsp;&nbsp;</option>
+                            <option class="level-0" value="22">Majalah Genta&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1594">Media Partnership&nbsp;&nbsp;</option>
+                            <option class="level-0" value="158">Open House&nbsp;&nbsp;</option>
+                            <option class="level-0" value="689">Pemilu Raya&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1590">Persekutuan(PERSKI)&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1591">&nbsp;&nbsp;&nbsp;&nbsp;GMTK&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1613">&nbsp;&nbsp;&nbsp;&nbsp;HPMT Genta&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1616">Petra Career Center&nbsp;&nbsp;</option>
+                            <option class="level-0" value="741">Upcoming Events&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1576">Wisuda&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1569">Fakultas Bisnis dan Ekonomi&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1571">&nbsp;&nbsp;&nbsp;&nbsp;Prodi Akuntansi&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1596">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Akuntansi Bisnis&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1572">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program International Business Accounting (IBAC)&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1570">&nbsp;&nbsp;&nbsp;&nbsp;Prodi Akuntansi Pajak&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1583">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Akuntansi Pajak Program International Business Engineering&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1586">&nbsp;&nbsp;&nbsp;&nbsp;Program International Business Management (IBM)&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1580">&nbsp;&nbsp;&nbsp;&nbsp;Program Manajemen Keuangan&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1576">&nbsp;&nbsp;&nbsp;&nbsp;Program Manajemen Perhotelan&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1603">Fakultas Humaniora dan Industri Kreatif&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1609">&nbsp;&nbsp;&nbsp;&nbsp;Program Studi Sastra Inggris&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1610">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Petra English Theatre&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1573">Fakultas Ilmu Komunikasi&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1602">Fakultas Keguruan dan Ilmu Pendidikan&nbsp;&nbsp;</option>
+                            <option class="level-0" value="560">Fakultas Sastra&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1587">&nbsp;&nbsp;&nbsp;&nbsp;Prodi Bahasa Mandarin&nbsp;&nbsp;</option>
+                            <option class="level-0" value="190">Fakultas Seni dan Desain&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1605">&nbsp;&nbsp;&nbsp;&nbsp;Desain Fashion dan Tekstil&nbsp;&nbsp;</option>
+                            <option class="level-1" value="205">&nbsp;&nbsp;&nbsp;&nbsp;Desain Interior&nbsp;&nbsp;</option>
+                            <option class="level-1" value="191">&nbsp;&nbsp;&nbsp;&nbsp;Desain Komunikasi Visual&nbsp;&nbsp;</option>
+                            <option class="level-2" value="192">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adiwarna&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1566">Fakultas Teknik Industri&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1567">&nbsp;&nbsp;&nbsp;&nbsp;Informatika&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1568">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sistem Informasi Bisnis (SIB)&nbsp;&nbsp;</option>
+                            <option class="level-0" value="1574">Fakultas Teknik Sipil dan Perencanaan&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1575">&nbsp;&nbsp;&nbsp;&nbsp;Program Studi Teknik Sipil&nbsp;&nbsp;</option>
+                            <option class="level-0" value="358">Fakultas Teknologi Industri&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1584">&nbsp;&nbsp;&nbsp;&nbsp;Program Studi Teknik Industri&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1585">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program International Business Engineering (IBE)&nbsp;&nbsp;</option>
+                            <option class="level-1" value="359">&nbsp;&nbsp;&nbsp;&nbsp;Program Studi Teknik Mesin&nbsp;&nbsp;</option>
+                            <option class="level-0" value="771">King Sejong Institute&nbsp;&nbsp;</option>
+                            <option class="level-0" value="11">Lembaga Kemahasiswaan&nbsp;&nbsp;</option>
+                            <option class="level-1" value="234">&nbsp;&nbsp;&nbsp;&nbsp;Himpunan Mahasiswa&nbsp;&nbsp;</option>
+                            <option class="level-2" value="399">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himahottra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1607">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himaintra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="283">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himainfra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="561">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himajaktra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="561">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himaketra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="561">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himamesra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="561">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himatitra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="561">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himabamatra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1601">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himasaintra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="235">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himamatra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1598">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himatantra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1582">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himatektra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="298">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himatitra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="329">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himavistra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1593">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himasitra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="336">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himaartra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="287">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himasintra&nbsp;&nbsp;</option>
+                            <option class="level-2" value="904">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himakomtra&nbsp;&nbsp;</option>
+                            <option class="level-0" value="76">Achievement&nbsp;&nbsp;</option>
+                            <option class="level-0" value="201">Badan Eksekutif Mahasiswa&nbsp;&nbsp;</option>
+                            <option class="level-1" value="631">&nbsp;&nbsp;&nbsp;&nbsp;LKM-ID&nbsp;&nbsp;</option>
+                            <option class="level-1" value="202">&nbsp;&nbsp;&nbsp;&nbsp;LKM-TR&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1615">&nbsp;&nbsp;&nbsp;&nbsp;Servant Leadership Training&nbsp;&nbsp;</option>
+                            <option class="level-1" value="263">&nbsp;&nbsp;&nbsp;&nbsp;UKM&nbsp;&nbsp;</option>
+                            <option class="level-2" value="303">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSO&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1619">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EFM&nbsp;&nbsp;</option>
+                            <option class="level-2" value="273">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KSR&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1617">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matranak&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1618">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mena&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1595">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UKM Paduan Suara&nbsp;&nbsp;</option>
+                            <option class="level-2" value="1612">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UKM Selam&nbsp;&nbsp;</option>
+                            <option class="level-2" value="264">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UKM Teater Rumpun Padi&nbsp;&nbsp;</option>
+                            <option class="level-0" value="265">Bank Panitia&nbsp;&nbsp;</option>
+                            <option class="level-0" value="76">BIG Events&nbsp;&nbsp;</option>
+                            <option class="level-1" value="147">&nbsp;&nbsp;&nbsp;&nbsp;Community Outreach Program (COP)&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1577">&nbsp;&nbsp;&nbsp;&nbsp;Dies Natalis&nbsp;&nbsp;</option>
+                            <option class="level-1" value="388">&nbsp;&nbsp;&nbsp;&nbsp;LKMM-TD&nbsp;&nbsp;</option>
+                            <option class="level-1" value="129">&nbsp;&nbsp;&nbsp;&nbsp;Welcome Grateful Generation&nbsp;&nbsp;</option>
+                            <option class="level-2" value="159">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open House&nbsp;&nbsp;</option>
+                            <option class="level-0" value="75">Events&nbsp;&nbsp;</option>
+                            <option class="level-1" value="611">&nbsp;&nbsp;&nbsp;&nbsp;Eksternal&nbsp;&nbsp;</option>
+                            <option class="level-1" value="1604">&nbsp;&nbsp;&nbsp;&nbsp;Office of Institutional Advance&nbsp;&nbsp;</option>
+                            <option class="level-1" value="309">&nbsp;&nbsp;&nbsp;&nbsp;Pelantikan LK-TR&nbsp;&nbsp;</option>
+                            <option class="level-1" value="549">&nbsp;&nbsp;&nbsp;&nbsp;Pengabdian Masyarakat&nbsp;&nbsp;</option>
+                            <option class="level-1" value="128">&nbsp;&nbsp;&nbsp;&nbsp;Pusat Karir&nbsp;&nbsp;</option>
+                            <option class="level-2" value="218">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pre-Graduation Day Events&nbsp;&nbsp;</option>
+                            <option class="level-1" value="221">&nbsp;&nbsp;&nbsp;&nbsp;Upacara Bendera&nbsp;&nbsp;</option>
+                        </select>
                         <button class="btn btn-outline-warning" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -164,42 +255,22 @@
                 </form>
                 
                 <ul class="navbar-nav ms-auto">
-                    <!-- Home -->
                     <li class="nav-item">
                         <a href="{{ route('news.index') }}" class="nav-link">
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
                     
-                    <!-- Categories dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-list-alt me-1"></i> Categories
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoriesDropdown">
-                            <li><a class="dropdown-item" href="#">Academic</a></li>
-                            <li><a class="dropdown-item" href="#">Events</a></li>
-                            <li><a class="dropdown-item" href="#">Sports</a></li>
-                            <li><a class="dropdown-item" href="#">Student Life</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">All Categories</a></li>
-                        </ul>
-                    </li>
-                    
-                    <!-- Link to Add News -->
                     <li class="nav-item">
                         <a href="{{ route('news.create') }}" class="nav-link add-news-btn btn btn-warning btn-sm text-light">
                             <i class="fas fa-plus-circle me-1"></i> Add News
                         </a>
                     </li>
                     
-                    <!-- Link to History (News List) -->
                     <li class="nav-item">
                         <a href="{{ route('news.history') }}" class="nav-link fw-bold">History News</a>
                     </li>
                     
-                    <!-- User dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
@@ -224,9 +295,7 @@
         </div>
     </nav>
 
-    <!-- Main Content Area -->
     <main>
-        <!-- Hero Section for Homepage -->
         @if(Request::is('/'))
         <div class="bg-dark text-white py-5">
             <div class="container">
@@ -244,11 +313,9 @@
         </div>
         @endif
 
-        <!-- Page Content -->
         <div class="container my-5">
             <h2 class="text-center campus-heading mb-4">@yield('title', 'All News')</h2>
             
-            <!-- Alert Messages -->
             @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
@@ -266,7 +333,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-dark text-white py-4 mt-5">
         <div class="container">
             <div class="row">

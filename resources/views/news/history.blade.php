@@ -15,6 +15,7 @@
                 <th>Status Updated At</th>
                 <th>Reason</th>
                 <th>Action</th>
+                <th>View</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +39,13 @@
                     <td>
                         @if($item->status == 'rejected')
                             {{ $item->rejection_memo ?? '-' }}
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td>
+                        @if($item->status == 'rejected')
+                            <a href="{{ route('news.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         @else
                             -
                         @endif
