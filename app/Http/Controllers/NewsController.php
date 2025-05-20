@@ -65,6 +65,16 @@ class NewsController extends Controller
         return view('news.edit', compact('news'));
     }
 
+    public function drafts()
+    {
+        $databaseDrafts = News::where('user_id', auth()->id())
+                ->where('status', 'draft')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+        return view('news.drafts', compact('databaseDrafts'));
+    }
+
     public function update(Request $request, $id)
     {
         $validated = $request->validate([

@@ -262,8 +262,14 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a href="{{ route('news.create') }}" class="nav-link add-news-btn btn btn-warning btn-sm text-light">
+                        <a href="{{ route('news.create') }}?new=true" class="nav-link add-news-btn btn btn-warning btn-sm text-light">
                             <i class="fas fa-plus-circle me-1"></i> Add News
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('news.drafts') }}">
+                            <i class="fas fa-save"></i> My Drafts
                         </a>
                     </li>
                     
