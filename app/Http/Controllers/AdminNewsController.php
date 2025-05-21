@@ -9,9 +9,18 @@ use App\Mail\NewsApproved;
 
 class AdminNewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::orderBy('created_at', 'desc')->get();
+        $status = $request->query('status', 'pending'); // Default to 'pending' if no status is provided
+
+        $query = News::query();
+        if ($status !== 'pending' && $status !== 'approved') {
+            $status = 'pending'; // Fallback to 'pending' for invalid statuses
+        }
+        $query->where('status', $status);
+        
+        $news = $query->orderBy('created_at', 'desc')->get();
+
         return view('admin.news.index', compact('news'));
     }
 
