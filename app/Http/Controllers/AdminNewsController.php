@@ -26,6 +26,7 @@ class AdminNewsController extends Controller
 
     public function review(News $news)
     {
+        $news->youtube_link = preg_replace('/.*(?:youtu\.be\/|v=|\/v\/|embed\/|watch\?v=|&v=)([^&\n?#]+)/', '$1', $news->youtube_link);
         return view('admin.news.review', compact('news'));
     }
 

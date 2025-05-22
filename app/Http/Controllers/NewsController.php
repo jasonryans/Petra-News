@@ -156,6 +156,7 @@ class NewsController extends Controller
 
     public function complete(News $news)
     {
+        $news->youtube_link = preg_replace('/.*(?:youtu\.be\/|v=|\/v\/|embed\/|watch\?v=|&v=)([^&\n?#]+)/', '$1', $news->youtube_link);
         return view('news.complete', compact('news'));
     }
 
