@@ -196,8 +196,28 @@
                 loadDraft();
             }
             
-           document.querySelector('form').addEventListener('submit', function(event) {
+            // Modify the form submission event listener to remove the draft
+            document.querySelector('form').addEventListener('submit', function(event) {
                 const draftIdField = document.getElementById('draft_id');
+                const urlParams = new URLSearchParams(window.location.search);
+                const submittedDraftId = urlParams.get('submitted_draft_id');
+
+                if (submittedDraftId) {
+                    // Remove the draft that was successfully submitted
+                    console.log("Found submitted draft ID in URL:", submittedDraftId);
+                    removeDraftAfterSubmission(submittedDraftId);
+                    
+                    // Show success message
+                    const draftStatus = document.getElementById('draftStatus');
+                    draftStatus.innerHTML = '<div class="alert alert-success">News item submitted successfully! Draft has been removed.</div>';
+                    
+                    // Clear the URL parameter
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    
+                    setTimeout(() => {
+                        draftStatus.innerHTML = '';
+                    }, 5000);
+                }
                 
                 if (draftIdField && draftIdField.value) {
                     // Always prevent default first to ensure our code runs
@@ -242,27 +262,37 @@
                 saveDraft();
             });
             
+            // Uncomment the checkForDraft function call
             checkForDraft();
         });
 
-        // Function to remove draft after successful form submission
         function removeDraftAfterSubmission(draftId) {
+            console.log("Removing draft after submission:", draftId);
             let userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
             
             if (draftId) {
                 // Remove specific draft
+                const beforeCount = userDrafts.length;
                 userDrafts = userDrafts.filter(draft => draft.id !== draftId);
+                console.log(`Removed draft ${draftId}: Before: ${beforeCount}, After: ${userDrafts.length}`);
             } else {
                 // If no specific ID, just remove the most recent draft
-                userDrafts.pop();
+                if (userDrafts.length > 0) {
+                    const removedDraft = userDrafts.pop();
+                    console.log("Removed most recent draft:", removedDraft.id);
+                }
             }
             
             localStorage.setItem(`userDrafts_${currentUserId}`, JSON.stringify(userDrafts));
         }
         
         function saveDraft() {
+            // First check if we're editing an existing draft
+            const draftIdField = document.getElementById('draft_id');
+            const existingDraftId = draftIdField ? draftIdField.value : null;
+            
             const formData = {
-                id: 'draft_' + Date.now(), // Generate a unique ID for each draft
+                id: existingDraftId || 'draft_' + Date.now(), // Use existing ID if available
                 title: document.getElementById('title').value,
                 description: document.getElementById('description').value,
                 start_date: document.getElementById('start_date').value,
@@ -276,8 +306,19 @@
             // Get existing drafts or initialize empty array
             let userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
             
-            // Add new draft to array
-            userDrafts.push(formData);
+            if (existingDraftId) {
+                // Update existing draft
+                const existingIndex = userDrafts.findIndex(draft => draft.id === existingDraftId);
+                if (existingIndex !== -1) {
+                    userDrafts[existingIndex] = formData;
+                } else {
+                    // If somehow the ID exists in form but not in storage, add as new
+                    userDrafts.push(formData);
+                }
+            } else {
+                // Add new draft
+                userDrafts.push(formData);
+            }
             
             // Save back to localStorage
             localStorage.setItem(`userDrafts_${currentUserId}`, JSON.stringify(userDrafts));
@@ -297,6 +338,11 @@
             const audienceSelect = document.getElementById('audience');
             audienceSelect.selectedIndex = 0;
             
+            // Remove the hidden draft_id field if it exists
+            if (draftIdField) {
+                draftIdField.remove();
+            }
+            
             // Show success message
             const draftStatus = document.getElementById('draftStatus');
             draftStatus.innerHTML = '<div class="alert alert-success">Draft saved successfully! Redirecting to homepage...</div>';
@@ -305,7 +351,7 @@
             setTimeout(() => {
                 window.location.href = '{{ route("news.index") }}';
             }, 1500);
-    }
+        }
         
         function loadDraft(draftId) {
             const userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
@@ -351,24 +397,6 @@
                         document.getElementById('draft_id').value = draftToLoad.id;
                     }
                 }
-            }
-        }
-
-        function checkForDraft() {
-            const userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
-            
-            if (userDrafts.length > 0) {
-                // Get the most recent draft
-                const latestDraft = userDrafts[userDrafts.length - 1];
-                
-                const draftStatus = document.getElementById('draftStatus');
-                draftStatus.innerHTML = `
-                    <div class="alert alert-info">
-                        You have ${userDrafts.length} saved draft(s). Most recent from ${latestDraft.saved_at || 'earlier'}.
-                        <button type="button" class="btn btn-sm btn-outline-primary mx-2" onclick="loadDraft()">Load latest</button>
-                        <a href="{{ route('news.drafts') }}" class="btn btn-sm btn-outline-secondary">View all drafts</a>
-                    </div>
-                `;
             }
         }
 

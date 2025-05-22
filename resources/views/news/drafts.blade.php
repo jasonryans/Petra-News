@@ -6,10 +6,6 @@
 <div class="container">
     <h2 class="mb-4">My Saved Drafts</h2>
     
-    <div class="alert alert-info">
-        <i class="fas fa-info-circle"></i> Drafts are stored locally on your browser and will be available only on this device.
-    </div>
-    
     <div id="draftsList" class="mt-4">
         <div class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
@@ -27,8 +23,26 @@
     const currentUserId = {{ auth()->id() }};
     
     document.addEventListener('DOMContentLoaded', function() {
+        // Check if this is a newly registered user
+        checkUserRegistration();
         loadDrafts();
     });
+    
+    function checkUserRegistration() {
+        // Store user IDs that have accessed the system
+        let knownUsers = JSON.parse(localStorage.getItem('knownUserIds') || '[]');
+        
+        // If this user ID is not in the known users list
+        if (!knownUsers.includes(currentUserId)) {
+            // Add the user to known users
+            knownUsers.push(currentUserId);
+            localStorage.setItem('knownUserIds', JSON.stringify(knownUsers));
+            
+            // Clear any potential drafts for this user ID from a previous account
+            localStorage.removeItem(`userDrafts_${currentUserId}`);
+            console.log("New user detected, cleared any previous drafts");
+        }
+    }
     
     function loadDrafts() {
         const draftsList = document.getElementById('draftsList');

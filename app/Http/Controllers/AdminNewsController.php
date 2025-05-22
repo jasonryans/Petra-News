@@ -9,14 +9,24 @@ use App\Mail\NewsApproved;
 
 class AdminNewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::orderBy('created_at', 'desc')->get();
+        $status = $request->query('status', 'pending'); // Default to 'pending' if no status is provided
+
+        $query = News::query();
+        if ($status !== 'pending' && $status !== 'approved') {
+            $status = 'pending'; // Fallback to 'pending' for invalid statuses
+        }
+        $query->where('status', $status);
+        
+        $news = $query->orderBy('created_at', 'desc')->get();
+
         return view('admin.news.index', compact('news'));
     }
 
     public function review(News $news)
     {
+        $news->youtube_link = preg_replace('/.*(?:youtu\.be\/|v=|\/v\/|embed\/|watch\?v=|&v=)([^&\n?#]+)/', '$1', $news->youtube_link);
         return view('admin.news.review', compact('news'));
     }
 
