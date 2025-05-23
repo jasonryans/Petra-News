@@ -11,16 +11,13 @@ class AdminNewsController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->query('status', 'pending'); // Default to 'pending' if no status is provided
-
-        $query = News::query();
-        if ($status !== 'pending' && $status !== 'approved') {
-            $status = 'pending'; // Fallback to 'pending' for invalid statuses
-        }
-        $query->where('status', $status);
+        $status = $request->get('status', 'pending');
         
-        $news = $query->orderBy('created_at', 'desc')->get();
-
+        if ($status === 'reviewed') {
+            $news = News::whereIn('status', ['approved', 'rejected'])->get();
+        } else {
+            $news = News::where('status', 'pending')->get();
+        }      
         return view('admin.news.index', compact('news'));
     }
 

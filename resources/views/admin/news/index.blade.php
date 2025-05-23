@@ -61,14 +61,14 @@
     <!-- Custom Toggle Button Group -->
     <div class="mb-3 custom-toggle-container">
         <input type="radio" name="status" id="status_pending" value="pending" 
-               {{ request()->get('status') == 'pending' || !request()->get('status') ? 'checked' : '' }}
-               onchange="window.location.href='{{ route('admin.news.index', ['status' => 'pending']) }}'">
+            {{ request()->get('status') == 'pending' || !request()->get('status') ? 'checked' : '' }}
+            onchange="window.location.href='{{ route('admin.news.index', ['status' => 'pending']) }}'">
         <label for="status_pending" class="custom-toggle {{ request()->get('status') == 'pending' || !request()->get('status') ? 'active' : '' }}">Review</label>
 
-        <input type="radio" name="status" id="status_approved" value="approved" 
-               {{ request()->get('status') == 'approved' ? 'checked' : '' }}
-               onchange="window.location.href='{{ route('admin.news.index', ['status' => 'approved']) }}'">
-        <label for="status_approved" class="custom-toggle {{ request()->get('status') == 'approved' ? 'active' : '' }}">Reviewed</label>
+        <input type="radio" name="status" id="status_approved" value="reviewed" 
+            {{ request()->get('status') == 'reviewed' ? 'checked' : '' }}
+            onchange="window.location.href='{{ route('admin.news.index', ['status' => 'reviewed']) }}'">
+        <label for="status_approved" class="custom-toggle {{ request()->get('status') == 'reviewed' ? 'active' : '' }}">Reviewed</label>
 
         <!-- Sliding background -->
         <div class="toggle-slider"></div>
@@ -125,9 +125,9 @@
     <!-- Display message if no events -->
     @if ($news->isEmpty())
         @if (request()->get('status') == 'pending' || !request()->get('status'))
-            <p class="text-center text-muted mt-3">No events to approve.</p>
-        @elseif (request()->get('status') == 'approved')
-            <p class="text-center text-muted mt-3">No events to approve.</p>
+            <p class="text-center text-muted mt-3">No events waiting for review.</p>
+        @elseif (request()->get('status') == 'reviewed')
+            <p class="text-center text-muted mt-3">No reviewed events found reviewed.</p>
         @endif
     @endif
 </div>
