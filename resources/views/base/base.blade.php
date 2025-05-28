@@ -139,7 +139,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a href="{{ route('news.index') }}" class="navbar-brand">
-                <i class="fas fa-newspaper me-2"></i>Campus News
+                <i class="fas fa-newspaper me-2"></i>Petra News
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
@@ -343,7 +343,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="fw-bold mb-3">Campus News</h5>
+                    <h5 class="fw-bold mb-3">Petra News</h5>
                     <p class="text-white">Your source for the latest campus events, announcements, and stories from around the university.</p>
                 </div>
                 <div class="col-md-3 mb-4 mb-md-0">

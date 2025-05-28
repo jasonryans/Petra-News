@@ -17,6 +17,14 @@
         </div>
 
         <div class="mb-3">
+            <label for="summary" class="form-label">Summary</label>
+            <input type="text" name="summary" id="summary" class="form-control" value="{{ old('summary', $news->summary) }}" required>
+            @error('title')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
             <label for="description" class="form-label">Information</label>
             <textarea name="description" id="description" class="form-control" rows="4" required>{{ old('description', $news->description) }}</textarea>
             @error('description')
@@ -84,7 +92,6 @@
                 <option class="level-2" value="1596" {{ old('category', $news->category) == '1596' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Akuntansi Bisnis&nbsp;&nbsp;</option>
                 <option class="level-2" value="1572" {{ old('category', $news->category) == '1572' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program International Business Accounting (IBAC)&nbsp;&nbsp;</option>
                 <option class="level-1" value="1570" {{ old('category', $news->category) == '1570' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Prodi Akuntansi Pajak&nbsp;&nbsp;</option>
-                <option class="level-2" value="1583" {{ old('category', $news->category) == '1583' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Akuntansi Pajak Program International Business Engineering&nbsp;&nbsp;</option>
                 <option class="level-1" value="1586" {{ old('category', $news->category) == '1586' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Program International Business Management (IBM)&nbsp;&nbsp;</option>
                 <option class="level-1" value="1580" {{ old('category', $news->category) == '1580' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Program Manajemen Keuangan&nbsp;&nbsp;</option>
                 <option class="level-1" value="1576" {{ old('category', $news->category) == '1576' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Program Manajemen Perhotelan&nbsp;&nbsp;</option>
@@ -128,8 +135,7 @@
                 <option class="level-2" value="904" {{ old('category', $news->category) == '904' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himakomtra&nbsp;&nbsp;</option>
                 <option class="level-0" value="76" {{ old('category', $news->category) == '76' ? 'selected' : '' }}>Achievement&nbsp;&nbsp;</option>
                 <option class="level-0" value="201" {{ old('category', $news->category) == '201' ? 'selected' : '' }}>Badan Eksekutif Mahasiswa&nbsp;&nbsp;</option>
-                <option class="level-1" value="631" {{ old('category', $news->category) == '631' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;LKM-ID&nbsp;&nbsp;</option>
-                <option class="level-1" value="202" {{ old('category', $news->category) == '202' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;LKM-TR&nbsp;&nbsp;</option>
+                <option class="level-1" value="202" {{ old('category', $news->category) == '202' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;LKMM-TM&nbsp;&nbsp;</option>
                 <option class="level-1" value="1615" {{ old('category', $news->category) == '1615' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Servant Leadership Training&nbsp;&nbsp;</option>
                 <option class="level-1" value="263" {{ old('category', $news->category) == '263' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;UKM&nbsp;&nbsp;</option>
                 <option class="level-2" value="303" {{ old('category', $news->category) == '303' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSO&nbsp;&nbsp;</option>
@@ -150,7 +156,7 @@
                 <option class="level-0" value="75" {{ old('category', $news->category) == '75' ? 'selected' : '' }}>Events&nbsp;&nbsp;</option>
                 <option class="level-1" value="611" {{ old('category', $news->category) == '611' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Eksternal&nbsp;&nbsp;</option>
                 <option class="level-1" value="1604" {{ old('category', $news->category) == '1604' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Office of Institutional Advance&nbsp;&nbsp;</option>
-                <option class="level-1" value="309" {{ old('category', $news->category) == '309' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Pelantikan LK-TR&nbsp;&nbsp;</option>
+                <option class="level-1" value="309" {{ old('category', $news->category) == '309' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Pelantikan LK-KBM&nbsp;&nbsp;</option>
                 <option class="level-1" value="549" {{ old('category', $news->category) == '549' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Pengabdian Masyarakat&nbsp;&nbsp;</option>
                 <option class="level-1" value="128" {{ old('category', $news->category) == '128' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Pusat Karir&nbsp;&nbsp;</option>
                 <option class="level-2" value="218" {{ old('category', $news->category) == '218' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pre-Graduation Day Events&nbsp;&nbsp;</option>

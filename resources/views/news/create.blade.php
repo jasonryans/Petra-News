@@ -6,6 +6,7 @@
     <div class="container">
         <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data" class="p-4 shadow rounded bg-light">
             @csrf
+            <input type="hidden" name="draft_id" id="draft_id" value="{{ request('draft') }}">
 
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -13,8 +14,15 @@
             </div>
 
             <div class="mb-3">
+                <label for="summary" class="form-label">Summary</label>
+                <textarea name="summary" id="summary" class="form-control" placeholder="Enter Summary" rows="4" required></textarea>
+                <div id="summaryWordCount" class="form-text text-muted">Word count: 0/80</div>
+            </div>
+
+            <div class="mb-3">
                 <label for="description" class="form-label">Information</label>
                 <textarea name="description" id="description" class="form-control" placeholder="Enter Information" rows="4" required></textarea>
+                <div id="wordCount" class="form-text text-muted">Word count: 0/600</div>
             </div>
 
             <div class="mb-3">
@@ -29,7 +37,7 @@
 
             <div class="mb-3">
                 <label for="image" class="form-label">Upload Image</label>
-                <input type="file" name="image" id="image" class="form-control">
+                <input type="file" name="image" id="image" class="form-control" required>
                 <div class="form-text text-muted">Maximum file size: 2MB (2048 KB). Accepted formats: JPEG, PNG, JPG, GIF.</div>
             </div>
 
@@ -61,7 +69,6 @@
                     <option class="level-2" value="1596">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Akuntansi Bisnis&nbsp;&nbsp;</option>
                     <option class="level-2" value="1572">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program International Business Accounting (IBAC)&nbsp;&nbsp;</option>
                     <option class="level-1" value="1570">&nbsp;&nbsp;&nbsp;&nbsp;Prodi Akuntansi Pajak&nbsp;&nbsp;</option>
-                    <option class="level-2" value="1583">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Akuntansi Pajak Program International Business Engineering&nbsp;&nbsp;</option>
                     <option class="level-1" value="1586">&nbsp;&nbsp;&nbsp;&nbsp;Program International Business Management (IBM)&nbsp;&nbsp;</option>
                     <option class="level-1" value="1580">&nbsp;&nbsp;&nbsp;&nbsp;Program Manajemen Keuangan&nbsp;&nbsp;</option>
                     <option class="level-1" value="1576">&nbsp;&nbsp;&nbsp;&nbsp;Program Manajemen Perhotelan&nbsp;&nbsp;</option>
@@ -109,8 +116,7 @@
                     <option class="level-2" value="904">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Himakomtra&nbsp;&nbsp;</option>
                     <option class="level-0" value="76">Achievement&nbsp;&nbsp;</option>
                     <option class="level-0" value="201">Badan Eksekutif Mahasiswa&nbsp;&nbsp;</option>
-                    <option class="level-1" value="631">&nbsp;&nbsp;&nbsp;&nbsp;LKM-ID&nbsp;&nbsp;</option>
-                    <option class="level-1" value="202">&nbsp;&nbsp;&nbsp;&nbsp;LKM-TR&nbsp;&nbsp;</option>
+                    <option class="level-1" value="202">&nbsp;&nbsp;&nbsp;&nbsp;LKMM-TM&nbsp;&nbsp;</option>
                     <option class="level-1" value="1615">&nbsp;&nbsp;&nbsp;&nbsp;Servant Leadership Training&nbsp;&nbsp;</option>
                     <option class="level-1" value="263">&nbsp;&nbsp;&nbsp;&nbsp;UKM&nbsp;&nbsp;</option>
                     <option class="level-2" value="303">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSO&nbsp;&nbsp;</option>
@@ -131,7 +137,7 @@
                     <option class="level-0" value="75">Events&nbsp;&nbsp;</option>
                     <option class="level-1" value="611">&nbsp;&nbsp;&nbsp;&nbsp;Eksternal&nbsp;&nbsp;</option>
                     <option class="level-1" value="1604">&nbsp;&nbsp;&nbsp;&nbsp;Office of Institutional Advance&nbsp;&nbsp;</option>
-                    <option class="level-1" value="309">&nbsp;&nbsp;&nbsp;&nbsp;Pelantikan LK-TR&nbsp;&nbsp;</option>
+                    <option class="level-1" value="309">&nbsp;&nbsp;&nbsp;&nbsp;Pelantikan LK-KBM&nbsp;&nbsp;</option>
                     <option class="level-1" value="549">&nbsp;&nbsp;&nbsp;&nbsp;Pengabdian Masyarakat&nbsp;&nbsp;</option>
                     <option class="level-1" value="128">&nbsp;&nbsp;&nbsp;&nbsp;Pusat Karir&nbsp;&nbsp;</option>
                     <option class="level-2" value="218">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pre-Graduation Day Events&nbsp;&nbsp;</option>
@@ -167,11 +173,49 @@
 
         function debugDraftIds() {
             const draftIdField = document.getElementById('draft_id');
-            const userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
+            const userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || []; 
             
-            console.log("Current form draft ID:", draftIdField ? draftIdField.value : "none");
+            console.log("Current form draft ID:", userDrafts.map(d => d.id));
             console.log("Available draft IDs in storage:", userDrafts.map(d => d.id));
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const summaryField = document.getElementById('summary');
+            const summaryWordCountDisplay = document.getElementById('summaryWordCount');
+            const maxSummaryWords = 80;
+
+            summaryField.addEventListener('input', function () {
+                const words = summaryField.value.trim().split(/\s+/).filter(word => word.length > 0);
+                const wordCount = words.length;
+
+                if (wordCount > maxSummaryWords) {
+                    // Trim the text to the maximum word limit
+                    summaryField.value = words.slice(0, maxSummaryWords).join(' ');
+                    summaryWordCountDisplay.textContent = `Word count: ${maxSummaryWords}/${maxSummaryWords}`;
+                } else {
+                    summaryWordCountDisplay.textContent = `Word count: ${wordCount}/${maxSummaryWords}`;
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const descriptionField = document.getElementById('description');
+            const wordCountDisplay = document.getElementById('wordCount');
+            const maxWords = 600;
+
+            descriptionField.addEventListener('input', function () {
+                const words = descriptionField.value.trim().split(/\s+/).filter(word => word.length > 0);
+                const wordCount = words.length;
+
+                if (wordCount > maxWords) {
+                    // Trim the text to the maximum word limit
+                    descriptionField.value = words.slice(0, maxWords).join(' ');
+                    wordCountDisplay.textContent = `Word count: ${maxWords}/${maxWords}`;
+                } else {
+                    wordCountDisplay.textContent = `Word count: ${wordCount}/${maxWords}`;
+                }
+            });
+        });
         
         document.addEventListener('DOMContentLoaded', function() {
             debugDraftIds();
@@ -181,6 +225,7 @@
             
             // Add a hidden field to track which draft is being edited
             if (draftId) {
+                document.getElementById('draft_id').value = draftId;
                 const form = document.querySelector('form');
                 const hiddenInput = document.createElement('input');
                 hiddenInput.type = 'hidden';
@@ -228,9 +273,9 @@
                     
                     try {
                         // Get current drafts
-                        let userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
+                        const userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
                         console.log("Before removal - drafts count:", userDrafts.length);
-                        console.log("Available draft IDs:", userDrafts.map(d => d.id));
+                        console.log("Available draft IDs:", userDrafts.map(d => d.id === draftId));
                         
                         // Find the index of the draft with matching ID
                         const indexToRemove = userDrafts.findIndex(draft => draft.id === targetId);
@@ -261,9 +306,6 @@
             document.getElementById('saveDraftBtn').addEventListener('click', function() {
                 saveDraft();
             });
-            
-            // Uncomment the checkForDraft function call
-            checkForDraft();
         });
 
         function removeDraftAfterSubmission(draftId) {
@@ -292,11 +334,13 @@
             const existingDraftId = draftIdField ? draftIdField.value : null;
             
             const formData = {
-                id: existingDraftId || 'draft_' + Date.now(), // Use existing ID if available
+                id: existingDraftId || 'draft_' + Date.now(), 
                 title: document.getElementById('title').value,
+                summary: document.getElementById('summary').value,
                 description: document.getElementById('description').value,
                 start_date: document.getElementById('start_date').value,
                 end_date: document.getElementById('end_date').value,
+                image: document.getElementById('image').value, 
                 youtube_link: document.getElementById('youtube_link').value,
                 category: document.getElementById('category').value,
                 audience: document.getElementById('audience').value,
@@ -325,6 +369,7 @@
             
             // Clear all form fields manually to ensure complete reset
             document.getElementById('title').value = '';
+            document.getElementById('summary').value = '';
             document.getElementById('description').value = '';
             document.getElementById('start_date').value = '';
             document.getElementById('end_date').value = '';
@@ -370,9 +415,11 @@
             
             if (draftToLoad) {
                 document.getElementById('title').value = draftToLoad.title || '';
+                document.getElementById('summary').value = draftToLoad.summary || '';
                 document.getElementById('description').value = draftToLoad.description || '';
                 document.getElementById('start_date').value = draftToLoad.start_date || '';
                 document.getElementById('end_date').value = draftToLoad.end_date || '';
+                document.getElementById('image').value = ''; 
                 document.getElementById('youtube_link').value = draftToLoad.youtube_link || '';
                 
                 if (draftToLoad.category) {
@@ -385,6 +432,7 @@
                 
                 // Store the draft ID if it exists
                 if (draftToLoad.id) {
+                    let draftIdField = document.getElementById('draft_id');
                     if (!document.getElementById('draft_id')) {
                         const form = document.querySelector('form');
                         const hiddenInput = document.createElement('input');

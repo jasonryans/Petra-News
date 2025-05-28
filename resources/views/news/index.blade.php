@@ -197,7 +197,12 @@
                             <p class="news-date mb-2">
                                 <i class="far fa-calendar-alt me-1"></i> {{ $item->start_date }}
                             </p>
-                            <p class="card-text">{{ Str::limit($item->description, 100, '...') }}</p>
+                            <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
+                             @if ($item->image)
+                                <div class="mb-4">
+                                    <img src="{{ asset('storage/' . $item->image) }}" alt="Current Image" class="img-thumbnail" style="max-width: 180px;">
+                                </div>
+                            @endif
                             <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
                                 <i class="fas fa-arrow-right me-1"></i> Read More
                             </a>
@@ -233,7 +238,10 @@
                                     <p class="news-date mb-2">
                                         <i class="far fa-calendar-alt me-1"></i> {{ $item->start_date }}
                                     </p>
-                                    <p class="card-text">{{ Str::limit($item->description, 100, '...') }}</p>
+                                    <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
+                                    @if($item->image_url)
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="img-fluid mt-2" style="max-height: 200px; object-fit: cover;">
+                                    @endif
                                     <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
                                         <i class="fas fa-arrow-right me-1"></i> Read More
                                     </a>

@@ -10,6 +10,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id'); // kolom user_id
             $table->string('title');
+            $table->string('summary');
             $table->text('description');
             $table->date('start_date');
             $table->date('end_date');
