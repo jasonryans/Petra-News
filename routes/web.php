@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/news/{news}', [NewsController::class, 'update'])->name('news.update');
 
     // Routes untuk Admin
+    Route::get('/admin/akses', [AdminNewsController::class, 'akses'])->name('admin.access.index');
     Route::prefix('admin/news')->name('admin.news.')->group(function () {
         Route::get('/', [AdminNewsController::class, 'index'])->name('index');
         Route::get('/review/{news}', [AdminNewsController::class, 'review'])->name('review');

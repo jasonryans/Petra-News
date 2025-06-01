@@ -114,7 +114,7 @@
                         @if ($item->status == 'pending')
                             <a href="{{ route('admin.news.review', $item->id) }}" class="btn btn-primary btn-sm text-white">Review</a>
                         @else
-                            <button class="btn btn-secondary btn-sm text-white" disabled>Reviewed</button>
+                            <a href="{{ route('admin.news.review', ['news' => $item->id, 'mode' => 'edit']) }}" class="btn btn-warning btn-sm text-white">Edit</a>
                         @endif
                     </td>
                 </tr>

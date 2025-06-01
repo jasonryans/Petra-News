@@ -37,9 +37,15 @@
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
                     Reject
                 </button>
+
+                 <!-- Cancel Button -->
+                <a href="{{ route('admin.news.index') }}" class="btn btn-secondary ms-2">Cancel</a>
+                
             </div>
     </div>
 </div>
+<br>
+<br>
 
 <!-- Reject Modal -->
 <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">

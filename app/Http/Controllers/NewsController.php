@@ -243,14 +243,16 @@ class NewsController extends Controller
         ]);
 
         $news = new News();
+
+        if ($request->has('draft_id') && $request->draft_id) {
+            $draft = News::find($request->draft_id);
+            if ($draft) {
+                $news = $draft; 
+            }
+        }
+
         $news->fill($validated);
         $news->user_id = auth()->id();
-
-        if ($request->has('draft_id')) {
-            return redirect()->route('news.index')
-                ->with('success', 'News created successfully!')
-                ->with('submitted_draft_id', $request->draft_id);
-        }
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('news_images', 'public');

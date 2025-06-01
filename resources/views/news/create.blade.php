@@ -3,6 +3,7 @@
 @section('title', 'Create News')
 
 @section('content')
+
     <div class="container">
         <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data" class="p-4 shadow rounded bg-light">
             @csrf
@@ -48,7 +49,7 @@
 
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
-                <select name="category" id="category" class="form-control" required onchange="toggleOtherInput('category')">
+                <select name="category" id="category" class="form-control" required>
                     <option value="" disabled selected>Select Category</option>
                     <option class="level-1" value="314">&nbsp;&nbsp;&nbsp;&nbsp;Koperasi Mahasiswa&nbsp;&nbsp;</option>
                     <option class="level-1" value="232">&nbsp;&nbsp;&nbsp;&nbsp;Pelayanan Mahasiswa&nbsp;&nbsp;</option>
@@ -147,7 +148,7 @@
 
             <div class="mb-3">
                 <label for="audience" class="form-label">For Who</label>
-                <select name="audience" id="audience" class="form-control" required onchange="toggleOtherInput('audience')">
+                <select name="audience" id="audience" class="form-control" required>
                     <option value="" disabled selected>Select Audience</option>
                     <option value="Public">Public</option>
                     <option value="Students">Mahasiswa UKP</option>
@@ -161,6 +162,42 @@
                 <button type="submit" class=" btn btn-success">Submit News</button>
             </div>
         </form>
+
+        @push('scripts')
+        <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace('description', {
+                toolbar: [
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
+                    { name: 'styles', items: ['FontSize'] },
+                    { name: 'clipboard', items: ['Undo', 'Redo'] },
+                    { name: 'links', items: ['Link', 'Unlink'] },
+                    { name: 'insert', items: ['Image', 'Table'] },
+                    { name: 'tools', items: ['Maximize'] }
+                ]
+            });
+
+            const maxWords = 600;
+
+            CKEDITOR.instances.description.on('change', function () {
+                const data = CKEDITOR.instances.description.getData();
+                const text = data.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').trim();
+                const words = text.split(/\s+/).filter(word => word.length > 0);
+                const wordCount = words.length;
+
+                const wordCountDisplay = document.getElementById('wordCount');
+                if (wordCount > maxWords) {
+                    wordCountDisplay.innerHTML = `<span class="text-danger">Word count: ${wordCount}/${maxWords} (exceeded!)</span>`;
+                } else {
+                    wordCountDisplay.innerHTML = `Word count: ${wordCount}/${maxWords}`;
+                }
+            });
+        </script>
+        @endpush
+
+
+
          <div class="mt-3 d-grid">
             <button id="saveDraftBtn" class="btn btn-secondary">Save as Draft</button>
         </div>
@@ -194,25 +231,6 @@
                     summaryWordCountDisplay.textContent = `Word count: ${maxSummaryWords}/${maxSummaryWords}`;
                 } else {
                     summaryWordCountDisplay.textContent = `Word count: ${wordCount}/${maxSummaryWords}`;
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const descriptionField = document.getElementById('description');
-            const wordCountDisplay = document.getElementById('wordCount');
-            const maxWords = 600;
-
-            descriptionField.addEventListener('input', function () {
-                const words = descriptionField.value.trim().split(/\s+/).filter(word => word.length > 0);
-                const wordCount = words.length;
-
-                if (wordCount > maxWords) {
-                    // Trim the text to the maximum word limit
-                    descriptionField.value = words.slice(0, maxWords).join(' ');
-                    wordCountDisplay.textContent = `Word count: ${maxWords}/${maxWords}`;
-                } else {
-                    wordCountDisplay.textContent = `Word count: ${wordCount}/${maxWords}`;
                 }
             });
         });

@@ -71,4 +71,10 @@ class AdminNewsController extends Controller
         News::where('id', $id)->delete();
         return redirect()->route('admin.news.index');
     }
+
+    public function akses()
+    {
+        return view('admin.akses');
+    }
+
 }

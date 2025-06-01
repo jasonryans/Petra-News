@@ -4,6 +4,8 @@
 
 @section('content')
 @php
+    use Carbon\Carbon;  
+
     $categoryColors = [
         'Koperasi Mahasiswa' => '#007bff',
         'Pelayanan Mahasiswa' => '#28a745',
@@ -194,9 +196,12 @@
                                 {{ $item->category_display }}
                             </span>
                             <h5 class="card-title fw-bold">{{ $item->title }}</h5>
-                            <p class="news-date mb-2">
-                                <i class="far fa-calendar-alt me-1"></i> {{ $item->start_date }}
+                           <p class="news-date mb-2">
+                                <i class="far fa-calendar-alt me-1"></i>
+                                {{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}
                             </p>
+
+
                             <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
                              @if ($item->image)
                                 <div class="mb-4">
@@ -235,8 +240,9 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold">{{ $item->title }}</h5>
-                                    <p class="news-date mb-2">
-                                        <i class="far fa-calendar-alt me-1"></i> {{ $item->start_date }}
+                                     <p class="news-date mb-2">
+                                        <i class="far fa-calendar-alt me-1"></i>
+                                        {{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}
                                     </p>
                                     <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
                                     @if($item->image_url)

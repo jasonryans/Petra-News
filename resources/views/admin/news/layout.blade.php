@@ -13,6 +13,17 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     
+                    <!-- Tombol Hak Akses -->
+                    <li class="nav-item">
+                        <a href="{{ route('admin.news.index') }}" class="nav-link fw-bold">Daftar Persetujuan</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.access.index') }}" class="nav-link fw-bold">Hak Akses</a>
+                    </li>
+
+        
+
                     <!-- Logout Button -->
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" style="display:inline;">
