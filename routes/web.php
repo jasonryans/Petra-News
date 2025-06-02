@@ -28,11 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/news/drafts', [NewsController::class, 'drafts'])->name('news.drafts');
     
     // Gunakan Route Model Binding
-    Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
+    Route::get('/news/confirm/{id}', [NewsController::class, 'confirm'])->name('news.confirm');
     Route::get('/news/view-submission/{news}', [NewsController::class, 'viewSubmission'])->name('news.viewSubmission');
-    Route::get('/news/{news}/complete', [NewsController::class, 'complete'])->name('news.complete');
     Route::get('/news/edit/{news}', [NewsController::class, 'edit'])->name('news.edit');
+    Route::get('/news/{news}/complete', [NewsController::class, 'complete'])->name('news.complete');
+    Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
     Route::post('/news/{news}', [NewsController::class, 'update'])->name('news.update');
+    Route::post('/news/{id}/submit-for-approval', [NewsController::class, 'submitForApproval'])->name('news.submitForApproval');
 
     // Routes untuk Admin
     Route::get('/admin/akses', [AdminNewsController::class, 'akses'])->name('admin.access.index');

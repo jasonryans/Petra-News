@@ -206,7 +206,6 @@ class NewsController extends Controller
         $news->youtube_link = $validated['youtube_link'];
         $news->category = $validated['category'];
         $news->audience = $validated['audience'];
-        $news->status = 'pending'; 
         $news->user_id = auth()->id();
         $news->updated_at = now();
 
@@ -258,7 +257,40 @@ class NewsController extends Controller
             $path = $request->file('image')->store('news_images', 'public');
             $news->image = $path;
         }
+        // dd($news->status);
 
+        $news->save();
+
+        return redirect()->route('news.confirm', $news->id);
+    }
+
+    public function confirm(Request $request, $id)
+    {
+        // dd('Reached confirm method with ID: ' . $id); // Die and dump
+        $news = News::findOrFail($id);
+
+        return view('news.confirm', compact('news'));
+    }
+
+    public function submitForApproval(Request $request, $id)
+    {
+       // Fetch the news item
+        $news = News::where('id', $id)
+                    ->where('user_id', auth()->id())
+                    ->first();
+
+        // Check if the news item exists and belongs to the user
+        if (!$news) {
+            return redirect()->route('news.index')->with('error', 'News item not found or does not belong to you.');
+        }
+
+        // // Check the current status
+        // if ($news->status !== 'new') {
+        //     return redirect()->route('news.index')->with('error', 'News item cannot be submitted. Current status: ' . $news->status);
+        // }
+
+        // Update the status to 'pending'
+        $news->status = 'pending';
         $news->save();
 
         return redirect()->route('news.index')->with('success', 'News submitted for approval!');
