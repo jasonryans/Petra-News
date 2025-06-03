@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
 
     // Routes untuk Admin
     Route::get('/admin/akses', [AdminNewsController::class, 'akses'])->name('admin.access.index');
+    Route::patch('/admin/akses/{user}', [AdminNewsController::class, 'updateRole'])->name('admin.updateRole');
+
+
     Route::prefix('admin/news')->name('admin.news.')->group(function () {
         Route::get('/', [AdminNewsController::class, 'index'])->name('index');
         Route::get('/review/{news}', [AdminNewsController::class, 'review'])->name('review');

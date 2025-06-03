@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewsApproved;
@@ -72,9 +73,24 @@ class AdminNewsController extends Controller
         return redirect()->route('admin.news.index');
     }
 
+   public function updateRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:user,admin,penyelenggara',
+        ]);
+
+        $user->role = $request->role;
+        $user->save();
+
+        return back()->with('success', "Role {$user->email} diubah menjadi {$user->role}.");
+    }
+
+    
     public function akses()
     {
-        return view('admin.akses');
+        // tampil per 10 baris, urut user baru di atas
+        $users = User::orderByDesc('created_at')->paginate(10);
+        return view('admin.akses', compact('users'));
     }
 
 }
