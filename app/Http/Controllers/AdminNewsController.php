@@ -12,13 +12,20 @@ class AdminNewsController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->get('status', 'pending');
+        $status = $request->get('status', 'pending'); // Default to 'pending'
+    
+        $query = News::query();
         
-        if ($status === 'reviewed') {
-            $news = News::whereIn('status', ['approved', 'rejected'])->get();
-        } else {
-            $news = News::where('status', 'pending')->get();
-        }      
+        if ($status === 'pending') {
+            $query->where('status', 'pending');
+        } elseif ($status !== 'pending') {
+            // Show both approved and rejected items in the "Reviewed" tab
+            $query->whereIn('status', ['approved', 'rejected']);
+        }
+        
+        // Order by created_at or updated_at depending on your preference
+        $news = $query->orderBy('created_at', 'desc')->get();
+        
         return view('admin.news.index', compact('news'));
     }
 
@@ -73,24 +80,27 @@ class AdminNewsController extends Controller
         return redirect()->route('admin.news.index');
     }
 
-   public function updateRole(Request $request, User $user)
+    public function updateRole(Request $request, $id)
     {
-        $request->validate([
-            'role' => 'required|in:user,admin,penyelenggara',
-        ]);
-
+        $user = User::findOrFail($id);
         $user->role = $request->role;
+
+        if ($request->role === 'penyelenggara') {
+            $user->role_expired_at = $request->expired_date;
+        } else {
+            $user->role_expired_at = null;
+        }
+
         $user->save();
 
-        return back()->with('success', "Role {$user->email} diubah menjadi {$user->role}.");
+        return redirect()->back()->with('success', 'Role berhasil diperbarui!');
     }
-
-    
+  
     public function akses()
     {
-        // tampil per 10 baris, urut user baru di atas
-        $users = User::orderByDesc('created_at')->paginate(10);
+        $users = User::where('role', '!=', 'admin')
+                            ->orderByDesc('created_at')
+                            ->paginate(10);
         return view('admin.akses', compact('users'));
     }
-
 }

@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['user', 'admin', 'penyelenggara'])->default('user');
+            $table->date('role_expired_at')->nullable();
             $table->timestamps();
         });
     }

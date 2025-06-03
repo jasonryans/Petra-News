@@ -80,14 +80,14 @@
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Created</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Status Updated At</th>
-                <th>Review</th>
+                <th class="text-center">ID</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Created</th>
+                <th class="text-center">Start Date</th>
+                <th class="text-center">End Date</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Status Updated At</th>
+                <th class="text-center">Review</th>
             </tr>
         </thead>
         <tbody>
@@ -95,7 +95,7 @@
                 <tr>
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->title }}</td>
-                    <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                    <td>{{ $item->created_at->format('Y-m-d') }}</td>
                     <td>{{ $item->start_date }}</td>
                     <td>{{ $item->end_date }}</td>
                     <td>

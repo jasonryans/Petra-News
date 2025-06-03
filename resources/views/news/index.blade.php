@@ -118,6 +118,25 @@
         padding: 0.8rem 0.8rem; 
         border-radius: 9px;
         font-size: 20px; 
+        max-width: fit-content;
+        width: auto;
+        align-self: flex-start
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-detail {
+        margin-top: auto;
+        align-self: flex-start;
     }
 
     .custom-toggle-container {
@@ -192,22 +211,22 @@
                             <i class="fas fa-newspaper text-warning" style="font-size: 3rem;"></i>
                         </div>
                         <div class="card-body">
-                            <span class="badge category-badge" data-category="{{ $item->category_display }}" style="background-color: {{ getCategoryColor($item->category_display, $categoryColors) }};">
-                                {{ $item->category_display }}
-                            </span>
-                            <h5 class="card-title fw-bold">{{ $item->title }}</h5>
-                           <p class="news-date mb-2">
-                                <i class="far fa-calendar-alt me-1"></i>
-                                {{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}
-                            </p>
-
-
-                            <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
-                             @if ($item->image)
-                                <div class="mb-4">
-                                    <img src="{{ asset('storage/' . $item->image) }}" alt="Current Image" class="img-thumbnail" style="max-width: 180px;">
-                                </div>
-                            @endif
+                            <div class="card-content">
+                                <span class="badge category-badge" data-category="{{ $item->category_display }}" style="background-color: {{ getCategoryColor($item->category_display, $categoryColors) }};">
+                                    {{ $item->category_display }}
+                                </span>
+                                <h5 class="card-title fw-bold">{{ $item->title }}</h5>
+                                <p class="news-date mb-2 fw-bold">
+                                    <i class="far fa-calendar-alt me-1"></i>
+                                    {{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}
+                                </p>
+                                <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
+                                @if ($item->image)
+                                    <div class="mb-4 text-center">
+                                        <img src="{{ asset('storage/' . $item->image) }}" alt="Current Image" class="img-thumbnail" style="max-width: 180px;">
+                                    </div>
+                                @endif
+                            </div>
                             <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
                                 <i class="fas fa-arrow-right me-1"></i> Read More
                             </a>
@@ -221,7 +240,6 @@
             @endforelse
         </div>
     </div>
-
     <!-- Filter View -->
     <div id="filter-view" class="view" style="display: none;">
         @forelse ($groupedNews as $category => $items)
@@ -240,13 +258,15 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold">{{ $item->title }}</h5>
-                                     <p class="news-date mb-2">
+                                     <p class="news-date mb-2 fw-bold">
                                         <i class="far fa-calendar-alt me-1"></i>
                                         {{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}
                                     </p>
                                     <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
-                                    @if($item->image_url)
-                                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="img-fluid mt-2" style="max-height: 200px; object-fit: cover;">
+                                    @if ($item->image)
+                                        <div class="mb-4 text-center">
+                                            <img src="{{ asset('storage/' . $item->image) }}" alt="Current Image" class="img-thumbnail" style="max-width: 180px;">
+                                        </div>
                                     @endif
                                     <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
                                         <i class="fas fa-arrow-right me-1"></i> Read More

@@ -42,7 +42,6 @@ class NewsController extends Controller
             '1596' => 'Program Akuntansi Bisnis',
             '1572' => 'Program International Business Accounting (IBAC)',
             '1570' => 'Prodi Akuntansi Pajak',
-            '1583' => 'Program Akuntansi Pajak Program International Business Engineering',
             '1586' => 'Program International Business Management (IBM)',
             '1580' => 'Program Manajemen Keuangan',
             '1576' => 'Program Manajemen Perhotelan',
@@ -90,8 +89,7 @@ class NewsController extends Controller
             '904' => 'Himakomtra',
             '76' => 'Achievement',
             '201' => 'Badan Eksekutif Mahasiswa',
-            '631' => 'LKM-ID',
-            '202' => 'LKM-TR',
+            '202' => 'LKMM-TM',
             '1615' => 'Servant Leadership Training',
             '263' => 'UKM',
             '303' => 'BSO',
@@ -112,7 +110,7 @@ class NewsController extends Controller
             '75' => 'Events',
             '611' => 'Eksternal',
             '1604' => 'Office of Institutional Advance',
-            '309' => 'Pelantikan LK-TR',
+            '309' => 'Pelantikan LK-KBM',
             '549' => 'Pengabdian Masyarakat',
             '128' => 'Pusat Karir',
             '218' => 'Pre-Graduation Day Events',
@@ -185,22 +183,21 @@ class NewsController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'title' => 'required',
-            'summary' => 'required',
-            'description' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'youtube_link' => 'nullable|url',
-            'category' => 'required',
-            'audience' => 'required',
+        'title' => 'required',
+        'summary' => 'required',
+        'description' => 'required',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'youtube_link' => 'nullable|url',
+        'category' => 'required',
+        'audience' => 'required',
         ]);
 
         $news = News::findOrFail($id);
         $news->title = $validated['title'];
         $news->summary = $validated['summary'];
         $news->description = $validated['description'];
-        $news->image = $validated['image'];
         $news->start_date = $validated['start_date'];
         $news->end_date = $validated['end_date'];
         $news->youtube_link = $validated['youtube_link'];
@@ -208,14 +205,18 @@ class NewsController extends Controller
         $news->audience = $validated['audience'];
         $news->user_id = auth()->id();
         $news->updated_at = now();
+        $news->created_at = now(); 
+        $news->status = 'pending';  
+        $news->rejection_memo = null;
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('news_images', 'public');
             $news->image = $path;
         }
+        
         $news->save();
 
-        return redirect()->route('news.index')->with('success', 'News updated successfully!');
+        return redirect()->route('news.index')->with('success', 'News updated and submitted for approval!');
     }
 
     public function history()

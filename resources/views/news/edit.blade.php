@@ -71,7 +71,7 @@
 
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <select name="category" id="category" class="form-control" required onchange="toggleOtherInput('category')">
+            <select name="category" id="category" class="form-control" required>
                 <option value="" disabled>Select Category</option>
                 <option class="level-1" value="314" {{ old('category', $news->category) == '314' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Koperasi Mahasiswa&nbsp;&nbsp;</option>
                 <option class="level-1" value="232" {{ old('category', $news->category) == '232' ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;Pelayanan Mahasiswa&nbsp;&nbsp;</option>
@@ -169,7 +169,7 @@
 
         <div class="mb-3">
             <label for="audience" class="form-label">For Who</label>
-            <select name="audience" id="audience" class="form-control" required onchange="toggleOtherInput('audience')">
+            <select name="audience" id="audience" class="form-control" required>
                 <option value="" disabled>Select Audience</option>
                 <option value="Public" {{ old('audience', $news->audience) == 'Public' ? 'selected' : '' }}>Public</option>
                 <option value="Students" {{ old('audience', $news->audience) == 'Mahasiswa UKP' ? 'selected' : '' }}>Mahasiswa UKP</option>
@@ -186,19 +186,4 @@
         </div>
     </form>
 </div>
-
-<script>
-function toggleOtherInput(field) {
-    var select = document.getElementById(field);
-    var input = document.getElementById(field + '_other');
-    if (select.value === "Other") {
-        input.style.display = 'block';
-        input.required = true;
-    } else {
-        input.style.display = 'none';
-        input.required = false;
-        input.value = '';
-    }
-}
-</script>
 @endsection

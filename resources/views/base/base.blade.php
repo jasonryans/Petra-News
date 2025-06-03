@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add Font Awesome for better icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -22,26 +21,75 @@
         }
         
         .navbar {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.8rem 1rem;
+            background-color: transparent !important;
+            box-shadow: none;
+            padding: 1.2rem 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
-        
+
         .navbar-brand {
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            color: #212529 !important;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center; 
         }
         
         .nav-link {
+        color: #212529 !important; 
             font-weight: 500;
             padding: 0.5rem 1rem;
             margin: 0 0.25rem;
             border-radius: 4px;
             transition: all 0.3s ease;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
         
         .nav-link:hover {
             background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar.scrolled .nav-link {
+            color: var(--text-light) !important; 
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .navbar.scrolled .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1); 
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(33, 37, 41, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 0.5rem 1.5rem; 
+        }
+
+        .navbar.scrolled ~ main {
+            padding-top: 80px; 
+        }
+
+        .navbar-brand img {
+            transition: all 0.3s ease;
+            max-width: 100px !important; 
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .navbar.scrolled .navbar-brand {
+            color: var(--text-light) !important; 
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .navbar.scrolled .navbar-brand img {
+            max-width: 75px !important;
         }
         
         .add-news-btn {
@@ -97,7 +145,6 @@
             padding: 3rem 0;
         }
         
-        /* For the dark mode toggler */
         .theme-toggle {
             cursor: pointer;
             padding: 0 10px;
@@ -111,22 +158,52 @@
         }
 
         main {
-            flex: 1; /* Ensures the main content takes up available space */
+            flex: 1; 
+            padding-top: 110px;
         }
 
         footer {
             position: relative;
             bottom: 0;
             width: 100%;
-            background-color: #212529; /* Matches the footer's background color */
+            background-color: #212529; 
         }
         
         @media (max-width: 767.98px) {
             .navbar-collapse {
-                background-color: var(--secondary-dark);
+                background-color: rgba(52, 58, 64, 0.95);
+                backdrop-filter: blur(10px);
                 padding: 1rem;
                 border-radius: 8px;
                 margin-top: 10px;
+            }
+            
+            .navbar {
+                padding: 1rem 1rem; 
+            }
+            
+            .navbar.scrolled {
+                padding: 0.5rem 1rem;
+            }
+            
+            .navbar-brand img {
+                max-width: 80px !important; 
+            }
+            
+            .navbar.scrolled .navbar-brand img {
+                max-width: 60px !important;
+            }
+            
+            .navbar-brand {
+                font-size: 1.3rem; 
+            }
+            
+            main {
+                padding-top: 90px; 
+            }
+            
+            .hero-section {
+                padding-top: 90px;
             }
             
             .campus-heading {
@@ -139,7 +216,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a href="{{ route('news.index') }}" class="navbar-brand">
-                <i class="fas fa-newspaper me-2"></i>Petra News
+                <img src="{{ asset('storage\news_images\img_assets\logo_lama.png') }}" alt="Logo_Lama" style="z-index: 99; position: relative; margin-right: 10px;">
+                <img src="{{ asset('storage\news_images\img_assets\logo_baru.png') }}" alt="Logo_Baru" style="z-index: 99; position: relative; margin-right: 10px;">
+                <span style="margin-left: 10px;">Petra News</span>            
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
@@ -151,7 +230,7 @@
                 <form class="d-flex ms-auto me-auto my-2 my-lg-0" style="max-width: 400px;" method="GET" action="{{ route('news.index') }}">
                     <div class="input-group">
                         <input class="form-control" type="search" name="search" placeholder="Search news..." aria-label="Search" value="{{ request('search') }}">
-                        <select class="form-select" name="category" aria-label="Filter by category" onchange="toggleOtherInput('category')">
+                        <select class="form-select" name="category" aria-label="Filter by category">
                             <option value="" selected>Select Category</option>
                             <option class="level-1" value="314">&nbsp;&nbsp;&nbsp;&nbsp;Koperasi Mahasiswa&nbsp;&nbsp;</option>
                             <option class="level-1" value="232">&nbsp;&nbsp;&nbsp;&nbsp;Pelayanan Mahasiswa&nbsp;&nbsp;</option>
@@ -261,28 +340,21 @@
                         </a>
                     </li>
                     
-                   @if (Auth::user()->role === 'admin' || Auth::user()->role === 'penyelenggara')
-                        <li class="nav-item">
-                            <a href="{{ route('news.create') }}?new=true" class="nav-link add-news-btn btn btn-warning btn-sm text-light">
-                                <i class="fas fa-plus-circle me-1"></i> Add News
-                            </a>
-                        </li>
-                    @endif
+                    <li class="nav-item">
+                        <a href="{{ route('news.create') }}?new=true" class="nav-link add-news-btn btn btn-warning btn-sm text-light">
+                            <i class="fas fa-plus-circle me-1"></i> Add News
+                        </a>
+                    </li>
 
-                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'penyelenggara')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('news.drafts') }}">
                             <i class="fas fa-save"></i> My Drafts
                         </a>
                     </li>
-                    @endif
                     
-                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'penyelenggara')
-                        <li class="nav-item">
-                            <a href="{{ route('news.history') }}" class="nav-link fw-bold">History News</a>
-                        </li>
-                        @endif
-                    
+                    <li class="nav-item">
+                        <a href="{{ route('news.history') }}" class="nav-link fw-bold">History News</a>
+                    </li>
                     
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -394,6 +466,45 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.querySelector('.navbar');
+        const body = document.body;
+        const main = document.querySelector('main');
+        
+        // Add home-page class if on home page
+        if (window.location.pathname === '/' || window.location.pathname === '') {
+            body.classList.add('home-page');
+        }
+        
+        // Scroll event listener
+        let ticking = false;
+        
+        function updateNavbar() {
+            const scrolled = window.scrollY > 50;
+            
+            if (scrolled) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            ticking = false;
+        }
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateNavbar);
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', requestTick);
+        
+        // Initial check
+        updateNavbar();
+    });
+    </script>
     @stack('scripts')
 </body>
 </html>
