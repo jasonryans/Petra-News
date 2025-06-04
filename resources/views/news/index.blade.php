@@ -106,8 +106,17 @@
         return isset($colors[$category]) ? $colors[$category] : $colors['default'];
     }
 
-    // Group news by category for "Filter" view
-    $groupedNews = $news->groupBy('category_display');
+    // Sort news based on start_date (default to earliest)
+    $sortedNews = $news->sortBy(function($item) {
+        return Carbon::parse($item->start_date)->timestamp;
+    });
+
+    // Group news by category for "Filter" view and sort within each category
+    $groupedNews = $sortedNews->groupBy('category_display')->map(function ($group) {
+        return $group->sortBy(function ($item) {
+            return Carbon::parse($item->start_date)->timestamp;
+        });
+    });
 @endphp
 
 <style>
@@ -139,76 +148,67 @@
         align-self: flex-start;
     }
 
-    .custom-toggle-container {
-        position: relative;
-        display: inline-flex;
-        border: 2px solid #c1c4c7;
-        border-radius: 10px;
-        overflow: hidden;
-        background-color: #e1e3e6;
-        width: 200px;
-    }
-
-    .custom-toggle {
-        background-color: transparent;
-        color: #969a9e;
+    .category-toggle-btn {
         padding: 8px 16px;
         font-weight: 500;
         cursor: pointer;
-        border: none;
-        outline: none;
-        flex: 1;
+        border: 2px solid #c1c4c7;
+        border-radius: 10px;
         text-align: center;
-        z-index: 1;
-        transition: color 0.3s ease;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    .custom-toggle.active {
+    .category-toggle-btn.off {
+        background-color: #e1e3e6;
+        color: #969a9e;
+    }
+
+    .category-toggle-btn.on {
+        background-color: #06498c;
         color: #FFFFFF;
     }
 
-    .custom-toggle-container input[type="radio"] {
-        display: none;
+    .image-container {
+        background-color: #212529;
+        width: 100%;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
     }
 
-    .toggle-slider {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 50%;
-        height: 100%;
-        background-color: #06498c;
-        transition: transform 0.3s ease;
-        border-radius: 3px;
+    .news-image {
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
     }
-
-    .custom-toggle-container input#status_approved:checked ~ .toggle-slider {
-        transform: translateX(100%);
-    }
-
-    .custom-toggle-container input#status_pending:checked ~ .toggle-slider {
-        transform: translateX(0);
+    .news-date {
+        color: #d49726;
+        font-size: 18px;
     }
 </style>
 
 <div class="container mt-4">
-    <!-- Toggle Button -->
-    <div class="custom-toggle-container mb-4">
-        <input type="radio" id="status_pending" name="status" value="all" checked>
-        <label for="status_pending" class="custom-toggle active">All</label>
-        <input type="radio" id="status_approved" name="status" value="filter">
-        <label for="status_approved" class="custom-toggle">Filter</label>
-        <span class="toggle-slider"></span>
+    <div class="d-flex align-items-center mb-4">
+        <h5 class="me-3">Filter by</h5>
+        <button class="category-toggle-btn off me-3" id="category-toggle">Category</button>
     </div>
 
     <!-- All View -->
     <div id="all-view" class="view">
         <div class="row">
-            @forelse ($news as $item)
+            @forelse ($sortedNews as $item)
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card news-card h-100">
-                        <div class="card-img-top bg-dark text-center py-4">
-                            <i class="fas fa-newspaper text-warning" style="font-size: 3rem;"></i>
+                        <div class="image-container">
+                            @if ($item->image)
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="News Image" class="news-image">
+                            @else
+                                <i class="fas fa-newspaper text-warning" style="font-size: 3rem;"></i>
+                            @endif
                         </div>
                         <div class="card-body">
                             <div class="card-content">
@@ -221,13 +221,8 @@
                                     {{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}
                                 </p>
                                 <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
-                                @if ($item->image)
-                                    <div class="mb-4 text-center">
-                                        <img src="{{ asset('storage/' . $item->image) }}" alt="Current Image" class="img-thumbnail" style="max-width: 180px;">
-                                    </div>
-                                @endif
                             </div>
-                            <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
+                            <a href="{{ route('news.complete', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
                                 <i class="fas fa-arrow-right me-1"></i> Read More
                             </a>
                         </div>
@@ -253,22 +248,21 @@
                     @foreach ($items as $item)
                         <div class="col-md-6 col-lg-4 mb-4">
                             <div class="card news-card h-100">
-                                <div class="card-img-top bg-dark text-center py-4">
-                                    <i class="fas fa-newspaper text-warning" style="font-size: 3rem;"></i>
+                                <div class="image-container">
+                                    @if ($item->image)
+                                        <img src="{{ asset('storage/' . $item->image) }}" alt="News Image" class="news-image">
+                                    @else
+                                        <i class="fas fa-newspaper text-warning" style="font-size: 3rem;"></i>
+                                    @endif
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold">{{ $item->title }}</h5>
-                                     <p class="news-date mb-2 fw-bold">
+                                    <p class="news-date mb-2 fw-bold">
                                         <i class="far fa-calendar-alt me-1"></i>
                                         {{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}
                                     </p>
                                     <p class="card-text">{{ Str::limit($item->summary, 200, '...') }}</p>
-                                    @if ($item->image)
-                                        <div class="mb-4 text-center">
-                                            <img src="{{ asset('storage/' . $item->image) }}" alt="Current Image" class="img-thumbnail" style="max-width: 180px;">
-                                        </div>
-                                    @endif
-                                    <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
+                                    <a href="{{ route('news.complete', $item->id) }}" class="btn btn-sm btn-dark btn-detail">
                                         <i class="fas fa-arrow-right me-1"></i> Read More
                                     </a>
                                 </div>
@@ -286,26 +280,24 @@
 </div>
 
 <script>
-    document.querySelectorAll('input[name="status"]').forEach((input) => {
-        input.addEventListener('change', function() {
-            // Update active class on labels
-            document.querySelectorAll('.custom-toggle').forEach((label) => {
-                label.classList.remove('active');
-            });
-            this.nextElementSibling.classList.add('active');
+    const toggleButton = document.getElementById('category-toggle');
+    const allView = document.getElementById('all-view');
+    const filterView = document.getElementById('filter-view');
 
-            // Show/hide views based on selection
-            const allView = document.getElementById('all-view');
-            const filterView = document.getElementById('filter-view');
-
-            if (this.value === 'all') {
-                allView.style.display = 'block';
-                filterView.style.display = 'none';
-            } else {
-                allView.style.display = 'none';
-                filterView.style.display = 'block';
-            }
-        });
+    toggleButton.addEventListener('click', () => {
+        if (toggleButton.classList.contains('off')) {
+            toggleButton.classList.remove('off');
+            toggleButton.classList.add('on');
+            toggleButton.textContent = 'Category';
+            allView.style.display = 'none';
+            filterView.style.display = 'block';
+        } else {
+            toggleButton.classList.remove('on');
+            toggleButton.classList.add('off');
+            toggleButton.textContent = 'Category';
+            allView.style.display = 'block';
+            filterView.style.display = 'none';
+        }
     });
 </script>
 @endsection
