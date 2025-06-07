@@ -88,6 +88,7 @@
                 <th class="text-center">Status</th>
                 <th class="text-center">Status Updated At</th>
                 <th class="text-center">Review</th>
+                <th class="text-center">Broadcast</th>
             </tr>
         </thead>
         <tbody>
@@ -115,6 +116,15 @@
                             <a href="{{ route('admin.news.review', $item->id) }}" class="btn btn-primary btn-sm text-white">Review</a>
                         @else
                             <a href="{{ route('admin.news.review', ['news' => $item->id, 'mode' => 'edit']) }}" class="btn btn-warning btn-sm text-white">Edit</a>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        @if ($item->status == 'approved')
+                            <a href="{{ route('admin.news.broadcast', $item->id) }}" class="btn btn-success btn-sm">
+                                <i class="fas fa-envelope me-1"></i>Broadcast
+                            </a>
+                        @else
+                            -
                         @endif
                     </td>
                 </tr>

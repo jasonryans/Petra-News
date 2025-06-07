@@ -19,6 +19,70 @@ class NewsController extends Controller
         return view('news.news_list', compact('news'));
     }
 
+    public function about()
+    {
+        // Data yang bisa ditampilkan di halaman About
+        $teamMembers = [
+            [
+                'name' => 'Sarah Johnson',
+                'role' => 'Editor-in-Chief',
+                'image' => 'team1.jpg',
+                'description' => 'Computer Science major with 3 years of journalism experience.',
+                'social' => [
+                    'linkedin' => '#',
+                    'twitter' => '#',
+                    'instagram' => '#',
+                    'email' => 'sarah@petra.ac.id'
+                ]
+            ],
+            [
+                'name' => 'Michael Chen',
+                'role' => 'Lead Developer',
+                'image' => 'team2.jpg',
+                'description' => 'Information Systems student specializing in web development.',
+                'social' => [
+                    'github' => '#',
+                    'linkedin' => '#',
+                    'twitter' => '#',
+                    'email' => 'michael@petra.ac.id'
+                ]
+            ],
+            [
+                'name' => 'Emily Rodriguez',
+                'role' => 'Content Manager',
+                'image' => 'team3.jpg',
+                'description' => 'Communications major with expertise in content strategy.',
+                'social' => [
+                    'linkedin' => '#',
+                    'instagram' => '#',
+                    'facebook' => '#',
+                    'email' => 'emily@petra.ac.id'
+                ]
+            ],
+            [
+                'name' => 'David Kim',
+                'role' => 'Photography Lead',
+                'image' => 'team4.jpg',
+                'description' => 'Visual Arts student with a keen eye for storytelling.',
+                'social' => [
+                    'instagram' => '#',
+                    'flickr' => '#',
+                    'linkedin' => '#',
+                    'email' => 'david@petra.ac.id'
+                ]
+            ]
+        ];
+
+        $stats = [
+            'articles' => '500+',
+            'events' => '50+',
+            'readers' => '10K+',
+            'updates' => '24/7'
+        ];
+
+        return view('news.about', compact('teamMembers'));
+    }
+
     public function index(Request $request)
     {
         // Define category mapping (value => name)

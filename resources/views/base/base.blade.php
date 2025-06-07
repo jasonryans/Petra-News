@@ -418,48 +418,45 @@
         </div>
     </main>
 
-    <footer class="bg-dark text-white py-4 mt-5">
+    <footer class="bg-white text-black py-4 mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5 class="fw-bold mb-3">Petra News</h5>
-                    <p class="text-white">Your source for the latest campus events, announcements, and stories from around the university.</p>
+                    <img src="{{ asset('storage/news_images/img_assets/logo_lama_baru.png') }}" class="logo-footer" style="margin-bottom: 30px; margin-top: 20px; max-width: 300px; margin-left: -10px;">
+                    <p class="text-black">Your source for the latest campus events, announcements, and stories from around the Petra Christian University.</p>
+
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Address</h5>
+                    <p style="padding-right: 10px;">
+                        Jl. Siwalankerto No.121-131, Siwalankerto, Kec. Wonocolo, Kota SBY, Jawa Timur 60236
+                    </p>
                 </div>
                 <div class="col-md-3 mb-4 mb-md-0">
                     <h5 class="fw-bold mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Home</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Latest News</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Events Calendar</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">About Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 mb-4 mb-md-0">
-                    <h5 class="fw-bold mb-3">Categories</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Academic</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Sports</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Events</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-white">Student Life</a></li>
+                        <li class="mb-2"><a href="{{ route('news.index') }}" class="text-decoration-none text-black">Home</a></li>
+                        <li class="mb-2"><a href="{{ route('news.about') }}" class="text-decoration-none text-black">About Us</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2">
-                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <h5 class="fw-bold mb-3">Social Media</h5>
                     <div class="d-flex">
-                        <a href="#" class="text-warning me-2" style="font-size: 1.2rem;"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-warning me-2" style="font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-warning me-2" style="font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-warning" style="font-size: 1.2rem;"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.facebook.com/pcusurabaya" class="text-primary me-2" style="font-size: 1.2rem;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.tiktok.com/@lifeatpcu" class="text-black me-2" style="font-size: 1.2rem;"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.instagram.com/lifeatpcu/" class="text-purple me-2" style="font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/channel/UCfosIytNyHD-Fbw3rvaxwIw" class="text-danger" style="font-size: 1.2rem;"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
             <hr class="my-4 bg-secondary">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start">
-                    <p class="small text-white mb-0">&copy; 2025 Campus News Portal. All rights reserved.</p>
+                    <p class="small text-black mb-0">Copyright &copy; 2025 Petra News. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <p class="small text-white mb-0">Designed with <i class="fas fa-heart text-danger"></i> for our University</p>
+                    <p class="small text-black mb-0">Designed with <i class="fas fa-heart text-danger"></i> for Petra Christian University</p>
                 </div>
             </div>
         </div>

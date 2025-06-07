@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminNewsController;
+use App\Http\Controllers\EmailController;
 
 // Jika belum login, arahkan ke halaman login
 Route::get('/', function () {
@@ -22,6 +23,7 @@ Route::middleware('auth')->group(function () {
     
     // Routes untuk News
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('news/about', [NewsController::class, 'about'])->name('news.about');
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     Route::post('/news', [NewsController::class, 'store'])->name('news.store');
     Route::get('/news/history', [NewsController::class, 'history'])->name('news.history');
@@ -37,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/news/{id}/submit-for-approval', [NewsController::class, 'submitForApproval'])->name('news.submitForApproval');
 
     // Routes untuk Admin
+    Route::get('send-mail', [EmailController::class, 'BroadcastMail']); //testing kirim email
     Route::get('/admin/akses', [AdminNewsController::class, 'akses'])->name('admin.access.index');
     Route::patch('/admin/akses/{user}', [AdminNewsController::class, 'updateRole'])->name('admin.updateRole');
 
@@ -48,5 +51,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/{news}/reject', [AdminNewsController::class, 'reject'])->name('reject');
         Route::post('/{news}/takedown', [AdminNewsController::class, 'takedown'])->name('takedown');
         Route::post('/{news}/clear-memo', [AdminNewsController::class, 'clearMemo'])->name('clear_memo');
+        Route::get('/{news}/broadcast', [AdminNewsController::class, 'broadcast'])->name('broadcast');
     });
 });

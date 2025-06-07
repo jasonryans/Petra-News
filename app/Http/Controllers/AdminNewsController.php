@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Models\User;
+use App\Mail\BroadcastMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewsApproved;
@@ -200,5 +201,24 @@ class AdminNewsController extends Controller
                             ->orderByDesc('created_at')
                             ->paginate(10);
         return view('admin.akses', compact('users'));
+    }
+
+    public function broadcast(News $news)
+    {
+        if ($news->status !== 'approved') {
+            return redirect()->back()->with('error', 'Only approved news can be broadcasted.');
+        }
+ 
+        $users = \App\Models\User::all();
+
+        try {
+            foreach ($users as $user) {
+                Mail::to($user->email)->send(new BroadcastMail($news));
+            }
+
+            return redirect()->back()->with('success', 'News has been successfully broadcasted to all users!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to broadcast news: ' . $e->getMessage());
+        }
     }
 }
