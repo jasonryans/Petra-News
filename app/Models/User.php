@@ -19,6 +19,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+    
+    protected $casts = [
+        'role_expired_at' => 'datetime',
+    ];
 
     public function news()
     {

@@ -37,7 +37,7 @@
                                 <option value="user" {{ $u->role === 'user' ? 'selected' : '' }}>User</option>
                                 <option value="penyelenggara" {{ $u->role === 'penyelenggara' ? 'selected' : '' }}>Penyelenggara</option>
                             </select>
-                            <button type="submit" class="btn btn-primary">Update Role</button>
+                            <button type="submit" class="btn btn-primary update-role-btn" style="display: none;">Update Role</button>
                         </form>
                     </td>
                     <td>{{$u->role_expired_at}}</td>
@@ -84,20 +84,34 @@ document.querySelectorAll('.role-select').forEach(select => {
         const selectedRole = e.target.value;
         const form = e.target.closest('form');
         const action = form.getAttribute('action');
+        const originalRole = form.querySelector('option[selected]').value;
+        const submitBtn = form.querySelector('.update-role-btn');
 
         if (selectedRole === 'penyelenggara') {
             e.preventDefault();
 
-            // Set form action
+            // Sembunyikan tombol
+            if (submitBtn) {
+                submitBtn.style.display = 'none';
+            }
+
+            // Set form action di modal
             const modalForm = document.getElementById('roleUpdateForm');
             modalForm.setAttribute('action', action);
 
             // Show modal
             const modal = new bootstrap.Modal(document.getElementById('expiredDateModal'));
             modal.show();
+        } else if (selectedRole === 'user') {
+            // Kalau sebelumnya penyelenggara → user, tampilkan tombol
+            if (originalRole === 'penyelenggara') {
+                if (submitBtn) {
+                    submitBtn.style.display = 'inline-block';
+                }
+            }
         }
     });
 });
-
 </script>
+
 @endsection

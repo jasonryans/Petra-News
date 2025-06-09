@@ -339,22 +339,28 @@
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
-                    
+
+                     @if(auth()->user()->role !== 'user')
                     <li class="nav-item">
                         <a href="{{ route('news.create') }}?new=true" class="nav-link add-news-btn btn btn-warning btn-sm text-light">
                             <i class="fas fa-plus-circle me-1"></i> Add News
                         </a>
                     </li>
+                    @endif
 
+                    @if(auth()->user()->role !== 'user')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('news.drafts') }}">
                             <i class="fas fa-save"></i> My Drafts
                         </a>
                     </li>
+                    @endif
                     
+                    @if(auth()->user()->role !== 'user')
                     <li class="nav-item">
                         <a href="{{ route('news.history') }}" class="nav-link fw-bold">History News</a>
                     </li>
+                    @endif
                     
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
