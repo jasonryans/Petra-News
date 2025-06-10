@@ -232,6 +232,7 @@ iframe {
         <a href="{{ route('news.edit', $news->id) }}" class="btn btn-warning">Edit</a>
         <form action="{{ route('news.submitForApproval', $news->id) }}" method="POST" class="d-inline">
             @csrf
+            <input type="hidden" name="draft_id" value="{{ request()->query('draft_id') }}">
             <button type="submit" class="btn btn-success">Submit for Approval</button>
         </form>
     </div>

@@ -204,7 +204,7 @@ class NewsController extends Controller
 
     public function show(News $news)
     {
-        if ($news->status !== 'approved') {
+        if ($news->status != 'approved') {
             return redirect()->route('news.index')->with('error', 'News not found or not approved.');
         }
 
@@ -435,7 +435,7 @@ class NewsController extends Controller
             '1569' => 'Fakultas Bisnis dan Ekonomi',
             '1571' => 'Prodi Akuntansi',
             '1596' => 'Program Akuntansi Bisnis',
-            '1572' => 'Program International Business Accounting (IBAC)',
+            '1572' => 'Program International Business Accounting Marcellus (IBAC)',
             '1570' => 'Prodi Akuntansi Pajak',
             '1586' => 'Program International Business Management (IBM)',
             '1580' => 'Program Manajemen Keuangan',
@@ -601,9 +601,11 @@ class NewsController extends Controller
 
         $news = new News();
 
-        if ($request->has('draft_id') && $request->draft_id) {
-            $draft = News::find($request->draft_id);
-            if ($draft) {
+        $draftId = $request->input('draft_id');
+
+        if ($draftId) {
+            $draft = News::find($draftId);
+            if ($draft && $draft->user_id == auth()->id()) {
                 $news = $draft; 
             }
         }
@@ -618,7 +620,7 @@ class NewsController extends Controller
 
         $news->save();
 
-        return redirect()->route('news.confirm', $news->id);
+        return redirect()->route('news.confirm', ['id' => $news->id, 'draft_id' => $draftId]);
     }
 
     public function confirm(Request $request, $id)
@@ -728,21 +730,20 @@ class NewsController extends Controller
     }
 
     public function submitForApproval(Request $request, $id)
-    {
-        // Fetch the news item
-        $news = News::where('id', $id)
-                    ->where('user_id', auth()->id())
-                    ->first();
+{
+    $news = News::where('id', $id)
+                ->where('user_id', auth()->id())
+                ->first();
 
-        // Check if the news item exists and belongs to the user
-        if (!$news) {
-            return redirect()->route('news.index')->with('error', 'News item not found or does not belong to you.');
-        }
-
-        // Update the status to 'pending'
-        $news->status = 'pending';
-        $news->save();
-
-        return redirect()->route('news.index')->with('success', 'News submitted for approval!');
+    if (!$news) {
+        return redirect()->route('news.index')->with('error', 'News item not found or does not belong to you.');
     }
+
+    $news->status = 'pending';
+    $news->save();
+
+    $draftId = $request->input('draft_id');
+    return redirect()->route('news.drafts', ['submittedDraft' => $draftId])
+                     ->with('success', 'News submitted for approval!');
+}
 }

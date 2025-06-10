@@ -25,6 +25,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Check if this is a newly registered user
         checkUserRegistration();
+        // Check for submitted draft from URL parameter
+        checkSubmittedDraft();
         loadDrafts();
     });
     
@@ -43,6 +45,17 @@
             console.log("New user detected, cleared any previous drafts");
         }
     }
+    
+    function checkSubmittedDraft() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const submittedDraftId = urlParams.get('submittedDraft');
+    if (submittedDraftId) {
+        let userDrafts = JSON.parse(localStorage.getItem(`userDrafts_${currentUserId}`)) || [];
+        userDrafts = userDrafts.filter(draft => draft.id !== submittedDraftId);
+        localStorage.setItem(`userDrafts_${currentUserId}`, JSON.stringify(userDrafts));
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
     
     function loadDrafts() {
         const draftsList = document.getElementById('draftsList');
