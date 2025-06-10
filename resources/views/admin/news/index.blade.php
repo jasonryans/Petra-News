@@ -120,13 +120,11 @@
                     </td>
                     <td class="text-center">
                         @if ($item->status == 'approved')
-                            <form method="POST" action="{{ route('admin.news.broadcast', $item) }}" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-success btn-sm broadcast-btn-{{ $item->id }}" 
-                                        onclick="return confirm('Are you sure you want to broadcast this news?')">
-                                    <i class="fas fa-envelope me-1"></i>Broadcast
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-success btn-sm broadcast-btn-{{ $item->id }}" 
+                                    data-bs-toggle="modal" data-bs-target="#broadcastModal" 
+                                    data-news-id="{{ $item->id }}" data-news-title="{{ $item->title }}">
+                                <i class="fas fa-envelope me-1"></i>Broadcast
+                            </button>
                         @else
                             -
                         @endif
@@ -135,6 +133,30 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Broadcast Confirmation Modal -->
+    <div class="modal fade" id="broadcastModal" tabindex="-1" role="dialog" aria-labelledby="broadcastModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="broadcastModalLabel">Confirm Broadcast</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to broadcast this news?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="" id="broadcastForm" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-envelope me-1"></i>Confirm Broadcast
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @if(session('broadcasted_news_id'))
     <script>
@@ -146,10 +168,47 @@
                 button.innerHTML = '<i class="fas fa-check me-1"></i>Broadcasted';
                 button.classList.remove('btn-success');
                 button.classList.add('btn-secondary');
+                button.removeAttribute('data-bs-toggle');
+                button.removeAttribute('data-bs-target');
+                
+                // Store in localStorage
+                localStorage.setItem('broadcasted_' + broadcastedId, 'true');
             }
         });
     </script>
     @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check localStorage for previously broadcasted items
+            @foreach ($news as $item)
+                if (localStorage.getItem('broadcasted_{{ $item->id }}') === 'true') {
+                    const button = document.querySelector('.broadcast-btn-{{ $item->id }}');
+                    if (button) {
+                        button.disabled = true;
+                        button.innerHTML = '<i class="fas fa-check me-1"></i>Broadcasted';
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-secondary');
+                        button.removeAttribute('data-bs-toggle');
+                        button.removeAttribute('data-bs-target');
+                    }
+                }
+            @endforeach
+
+            // Handle modal data population
+            const broadcastModal = document.getElementById('broadcastModal');
+            const broadcastForm = document.getElementById('broadcastForm');
+
+            broadcastModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const newsId = button.getAttribute('data-news-id');
+                const title = button.getAttribute('data-news-title');
+                
+                // Set the form action dynamically
+                broadcastForm.action = '{{ route("admin.news.broadcast", ":id") }}'.replace(':id', newsId);
+            });
+        });
+    </script>
 
     <!-- Display message if no events -->
     @if ($news->isEmpty())
