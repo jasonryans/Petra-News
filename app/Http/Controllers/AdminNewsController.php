@@ -213,15 +213,10 @@ class AdminNewsController extends Controller
         
         $additionalEmails = [
             'c14220299@john.petra.ac.id',
-            // 'c14220157@john.petra.ac.id',
-            // 'c14220311@john.petra.ac.id',
-            // 'c14220315@john.petra.ac.id',
-            // 'ndahmahmudah50@gmail.com',
-            // 'gofinaaa@gmail.com',
-            // 'sonaldospurs07@gmail.com',
-            // 'jasonsusilo579@gmail.com',
-            // 'tionardorobert123@gmail.com',
-            // 'ezrakonterliem@gmail.com',
+            'c14220241@john.petra.ac.id',
+            'c14220273@john.petra.ac.id',
+            'c14220155@john.petra.ac.id',
+            'c14220175@john.petra.ac.id',
         ];
 
         $allEmails = [];
