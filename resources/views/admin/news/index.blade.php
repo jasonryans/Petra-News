@@ -120,9 +120,13 @@
                     </td>
                     <td class="text-center">
                         @if ($item->status == 'approved')
-                            <a href="{{ route('admin.news.broadcast', $item->id) }}" class="btn btn-success btn-sm">
-                                <i class="fas fa-envelope me-1"></i>Broadcast
-                            </a>
+                            <form method="POST" action="{{ route('admin.news.broadcast', $item) }}" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm broadcast-btn-{{ $item->id }}" 
+                                        onclick="return confirm('Are you sure you want to broadcast this news?')">
+                                    <i class="fas fa-envelope me-1"></i>Broadcast
+                                </button>
+                            </form>
                         @else
                             -
                         @endif
@@ -131,6 +135,21 @@
             @endforeach
         </tbody>
     </table>
+
+    @if(session('broadcasted_news_id'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const broadcastedId = {{ session('broadcasted_news_id') }};
+            const button = document.querySelector('.broadcast-btn-' + broadcastedId);
+            if (button) {
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-check me-1"></i>Broadcasted';
+                button.classList.remove('btn-success');
+                button.classList.add('btn-secondary');
+            }
+        });
+    </script>
+    @endif
 
     <!-- Display message if no events -->
     @if ($news->isEmpty())

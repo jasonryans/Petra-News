@@ -51,6 +51,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/{news}/reject', [AdminNewsController::class, 'reject'])->name('reject');
         Route::post('/{news}/takedown', [AdminNewsController::class, 'takedown'])->name('takedown');
         Route::post('/{news}/clear-memo', [AdminNewsController::class, 'clearMemo'])->name('clear_memo');
-        Route::get('/{news}/broadcast', [AdminNewsController::class, 'broadcast'])->name('broadcast');
+        Route::post('/{news}/broadcast', [AdminNewsController::class, 'broadcast'])->name('broadcast');
     });
 });

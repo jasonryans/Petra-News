@@ -208,15 +208,43 @@ class AdminNewsController extends Controller
         if ($news->status !== 'approved') {
             return redirect()->back()->with('error', 'Only approved news can be broadcasted.');
         }
- 
-        $users = \App\Models\User::all();
+
+        $registeredUsers = \App\Models\User::all();
+        
+        $additionalEmails = [
+            'c14220299@john.petra.ac.id',
+            // 'c14220157@john.petra.ac.id',
+            // 'c14220311@john.petra.ac.id',
+            // 'c14220315@john.petra.ac.id',
+            // 'ndahmahmudah50@gmail.com',
+            // 'gofinaaa@gmail.com',
+            // 'sonaldospurs07@gmail.com',
+            // 'jasonsusilo579@gmail.com',
+            // 'tionardorobert123@gmail.com',
+            // 'ezrakonterliem@gmail.com',
+        ];
+
+        $allEmails = [];
+        
+        foreach ($registeredUsers as $user) {
+            $allEmails[] = $user->email;
+        }
+        
+        $allEmails = array_merge($allEmails, $additionalEmails);
+        
+        $allEmails = array_unique($allEmails);
 
         try {
-            foreach ($users as $user) {
-                Mail::to($user->email)->send(new BroadcastMail($news));
+            foreach ($allEmails as $email) {
+                Mail::to($email)->send(new BroadcastMail($news));
             }
 
-            return redirect()->back()->with('success', 'News has been successfully broadcasted to all users!');
+            $totalRecipients = count($allEmails);
+            return redirect()->back()->with([
+                'success' => "News has been successfully broadcasted to {$totalRecipients} recipients!",
+                'broadcasted_news_id' => $news->id
+            ]);
+            
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to broadcast news: ' . $e->getMessage());
         }
