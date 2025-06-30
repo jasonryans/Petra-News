@@ -197,6 +197,8 @@ class AdminNewsController extends Controller
   
     public function akses()
     {
+        User::updateAllExpiredRoles();
+    
         $users = User::where('role', '!=', 'admin')
                             ->orderByDesc('created_at')
                             ->paginate(10);
@@ -213,10 +215,10 @@ class AdminNewsController extends Controller
         
         $additionalEmails = [
             'c14220299@john.petra.ac.id',
-            'c14220241@john.petra.ac.id',
-            'c14220273@john.petra.ac.id',
-            'c14220155@john.petra.ac.id',
-            'c14220175@john.petra.ac.id',
+            // 'c14220241@john.petra.ac.id',
+            // 'c14220273@john.petra.ac.id',
+            // 'c14220155@john.petra.ac.id',
+            // 'c14220175@john.petra.ac.id',
         ];
 
         $allEmails = [];

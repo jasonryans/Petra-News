@@ -28,4 +28,36 @@ class User extends Authenticatable
     {
         return $this->hasMany(News::class, 'user_id');
     }
+
+    public function checkAndUpdateExpiredRole()
+    {
+        if ($this->role === 'penyelenggara' && 
+            $this->role_expired_at && 
+            $this->role_expired_at < now()) {
+            
+            $this->role = 'user';
+            $this->role_expired_at = null;
+            $this->save();
+            
+            return true; 
+        }
+        
+        return false;
+    }
+
+    public static function updateAllExpiredRoles()
+    {
+        $expiredUsers = self::where('role', 'penyelenggara')
+                        ->where('role_expired_at', '<', now())
+                        ->whereNotNull('role_expired_at')
+                        ->get();
+
+        foreach ($expiredUsers as $user) {
+            $user->role = 'user';
+            $user->role_expired_at = null;
+            $user->save();
+        }
+
+        return $expiredUsers->count();
+    }
 }
